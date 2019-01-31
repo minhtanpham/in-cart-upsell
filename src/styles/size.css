@@ -1,0 +1,58 @@
+.pd-20 {
+    padding: 20px;
+}
+
+.mr-50 {
+    margin: 50px;
+}
+
+.mrt-50 {
+    margin-top: 50px;
+}
+
+.mrb-50 {
+    margin-bottom: 50px;
+}
+
+.small-text-size {
+    font-size: 12px;
+}
+
+.medium-text-size {
+    font-size: 16px;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.btn {
+    border: none;
+}
+
+.btn:hover {
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-bg-color);
+    color: var(--white-bg-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--active-primary-bg-color);
+    color: var(--white-bg-color);
+}
+
+.btn-primary:active {
+    background-color: var(--active-primary-bg-color);
+    color: var(--white-bg-color);
+}
+
+.btn-large {
+    width: 200px;
+}
+
+.center {
+    margin: 0px auto!important;
+}

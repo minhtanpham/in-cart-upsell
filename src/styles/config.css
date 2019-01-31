@@ -1,0 +1,9 @@
+:root {
+    --gray-bg-color: #EEEEEE;
+    --white-bg-color: #ffffff;
+    --bold-title-color: #303031;
+    --primary-bg-color: #03C3AD;
+    --active-primary-bg-color: #069F8E;
+
+    --text-size: 12px;
+}
