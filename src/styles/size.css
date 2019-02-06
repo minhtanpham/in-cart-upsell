@@ -39,6 +39,10 @@
     color: var(--white-bg-color);
 }
 
+.btn-dark {
+    background-color: var(--dark-color);
+}
+
 .btn-primary:hover {
     background-color: var(--active-primary-bg-color);
     color: var(--white-bg-color);
@@ -55,4 +59,12 @@
 
 .center {
     margin: 0px auto!important;
+}
+
+.float-right {
+    float: right!important;
+}
+
+.float-left {
+    float: left!important;
 }

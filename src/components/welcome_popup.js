@@ -18,28 +18,20 @@ export default class WelcomePopup extends React.Component {
                     <div className="modal-body">
                         <Slider {...settings}>
                             <div>
-                                <h3>1</h3>
+                                <img alt="welcome" src="https://res.cloudinary.com/tanpham/image/upload/v1548570377/welcome-icon.png" />
+                                <h2>WELCOME</h2>
+                                <span>Thanks for installing! We're stoked to see your sales grow. Click the arrow to complete setup</span>
                             </div>
                             <div>
-                                <h3>2</h3>
-                            </div>
-                            <div>
-                                <h3>3</h3>
-                            </div>
-                            <div>
-                                <h3>4</h3>
-                            </div>
-                            <div>
-                                <h3>5</h3>
-                            </div>
-                            <div>
-                                <h3>6</h3>
+                                <img alt="success" src="https://res.cloudinary.com/tanpham/image/upload/v1549183017/success-welcome.png" />
+                                <h2>You're all set!</h2>
+                                <span>Now go out and  make us proud!</span>
                             </div>
                         </Slider>
                     </div>
-                    <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary">Save changes</button>
+                    <div className="slider-footer">
+                        <button type="button" className="btn btn-dark" data-dismiss="modal">Skip for now</button>
+                        <button type="button" className="btn btn-primary float-right">Ready to roll</button>
                     </div>
                 </div>
                 </div>
