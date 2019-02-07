@@ -103,6 +103,33 @@ export default class LookAndFeel extends React.Component {
                         <span className="rc-color-picker-trigger" />
                     </ColorPicker>
                 </div>
+                <div className="full-width">
+                    <h1 className="label full-width block text-left mrb-10">Other Options</h1>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="" id="check1" />
+                        <label className="form-check-label" htmlFor="check1">Show Product Image</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="" id="check2" />
+                        <label className="form-check-label" htmlFor="check2">Hide products that are out of stock </label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="" id="check3" />
+                        <label className="form-check-label" htmlFor="check3">Link image and title to offered product(s) </label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="" id="check4" />
+                        <label className="form-check-label" htmlFor="check4">Show an "x" in the corner of the offer so customers can dismiss it (not recommended)</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="" id="check5" />
+                        <label className="form-check-label" htmlFor="check5">Let customers choose the quantity (otherwise the quantity will automatically be 1)</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="" id="check6" />
+                        <label className="form-check-label" htmlFor="check6">Automatically remove items from the cart if the rules or conditions are unmet</label>
+                    </div>
+                </div>
             </div>
         )
     }

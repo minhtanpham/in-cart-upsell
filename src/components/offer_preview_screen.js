@@ -4,6 +4,7 @@ import OfferPreview from './offer_preview';
 import ToggleSwitch from './toggle_switch';
 import CreateOffer from './create_offer';
 import LookAndFeel from './look_and_feel';
+import WhenShow from './when_show_offer';
 
 export default class OfferPreviewScreen extends React.Component {
 
@@ -25,7 +26,7 @@ export default class OfferPreviewScreen extends React.Component {
             case 'look':
                 return <LookAndFeel />
             case 'when':
-                return <LookAndFeel />
+                return <WhenShow />
             default:
                 return <CreateOffer />
         }
@@ -59,7 +60,7 @@ export default class OfferPreviewScreen extends React.Component {
                                     <ul className="preview-list-menu">
                                         <li onClick={() => this.changePage('create')} className={(this.state.page === 'create') ? 'active' : ''} >1. What To Offer</li>
                                         <li onClick={() => this.changePage('look')} className={(this.state.page === 'look') ? 'active' : ''} >2. Offer Look &amp; Feel</li>
-                                        <li onClick={() => this.changePage('show')} className={(this.state.page === 'show') ? 'active' : ''} >3. When To Show Offer</li>
+                                        <li onClick={() => this.changePage('when')} className={(this.state.page === 'when') ? 'active' : ''} >3. When To Show Offer</li>
                                     </ul>
                                     <div className="row no-padding">
                                         <div className="col-lg-12 mrt-10">
