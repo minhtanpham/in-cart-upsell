@@ -419,3 +419,68 @@ table tbody tr td {
   color: #D11717;
   cursor: pointer;
 }
+
+.stats-block {
+  border: 1px solid var(--primary-bg-color);
+  padding: 15px;
+  background-color: #fff;
+}
+
+.stats-block .main-title {
+  font-size: 15px;
+  font-weight: bold;
+  text-align: left;
+  display: inline-block;
+}
+
+.stats-block .timeframe {
+  color: #B8B8B8;
+  font-size: 13px;
+  font-style: oblique;
+  float: right;
+}
+
+.stats-block .dash {
+  color: #B8B8B8;
+  font-size: 13px;
+  font-style: oblique;
+  display: inline-block;
+  width: 100%;
+  text-align: right;
+}
+
+.stats-block .main-number {
+  font-size: 17px;
+  color: #03C3AD;
+  display: inline-block;
+  width: 100%;
+  text-align: right;
+}
+
+.stats-block-tab {
+  list-style: none;
+  display: inline-flex;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  margin-top: 15px;
+}
+
+.stats-block-tab li {
+  padding-right: 25px;
+  cursor: pointer;
+}
+
+.stats-block-tab li.active {
+  color: var(--primary-bg-color);
+}
+
+.list-product {
+  list-style: none;
+  padding: 0px;
+  margin-top: 10px;
+}
+
+.list-product .percent {
+  margin-left: 50px;
+}

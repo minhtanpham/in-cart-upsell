@@ -11,7 +11,7 @@ export default class OfferPreviewScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 'when'
+            page: 'create'
         }
     }
 

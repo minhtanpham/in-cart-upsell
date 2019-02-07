@@ -5,6 +5,7 @@ import Navigation from './navigation';
 import ListOffer from './list_offers';
 import SettingScreen from './setting_screen';
 import OfferPreviewScreen from './offer_preview_screen';
+import OtherStaffScreen from './other_staff_screen';
 
 export default class AppScreen extends React.Component {
 
@@ -17,6 +18,7 @@ export default class AppScreen extends React.Component {
                         <Route exact path={`${match.url}/`} component={ListOffer} />
                         <Route exact path={`${match.url}/setting`} component={SettingScreen} />
                         <Route exact path={`${match.url}/preview`} component={OfferPreviewScreen} />
+                        <Route exact path={`${match.url}/staff`} component={OtherStaffScreen} />
                     </React.Fragment>
                 </Router>
         )

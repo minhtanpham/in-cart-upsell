@@ -38,7 +38,7 @@ export default class WhenShow extends React.Component {
                     <span className="sub-label">Choose a product by typing its name or ID into the box</span>
                 </div>
                 <div className="full-width block">
-                    <button className="btn btn-primary">Add rule</button>
+                    <button className="btn btn-primary mrt-10">Add rule</button>
                 </div>
             </div>
         )
