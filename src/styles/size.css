@@ -1,3 +1,19 @@
+.no-padding {
+    padding: 0px!important;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.mr-10-0 {
+    margin: 10px 0px;
+}
+
+.mrr-10 {
+    margin-right: 10px;
+}
+
 .pd-20 {
     padding: 20px;
 }
@@ -8,6 +24,10 @@
 
 .mrt-50 {
     margin-top: 50px;
+}
+
+.mrt-10 {
+    margin-top: 10px;
 }
 
 .mrb-50 {
@@ -41,6 +61,7 @@
 
 .btn-dark {
     background-color: var(--dark-color);
+    color: #fff;
 }
 
 .btn-primary:hover {
@@ -67,4 +88,17 @@
 
 .float-left {
     float: left!important;
+}
+
+input.input-form {
+    border: 1px solid #cac5c5;
+    background: #fff;
+    height: 30px;
+    font-size: 14px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.block {
+    display: block!important;
 }

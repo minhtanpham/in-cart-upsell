@@ -302,6 +302,78 @@ table tbody tr td {
 
 .preview-list-menu a {
   text-decoration: none;
+}
+
+.preview-list-menu li {
+  text-decoration: none;
   padding: 5px;
-  background-color: #00084B;
+  background-color: var(--theme-bakcground-color);
+  margin: 2px 0px;
+  color: #fff;
+  padding: 10px 30px;
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.preview-list-menu li.active::before {
+  content: ' ';
+  display: block;
+  height: 50px;
+  width: 8px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: var(--active-primary-bg-color);
+}
+
+.offer-create-container {
+  background: var(--gray-bg-color);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.offer-create-container .label {
+  font-size: 15px;
+  margin: 0px;
+  padding: 0px;
+  color: #2A2A2A;
+  font-weight: bold;
+}
+
+.offer-create-container .sub-label {
+  font-size: 15px;
+  margin: 0px;
+  padding: 0px;
+  color: #2A2A2A;
+  font-weight: 500;
+}
+
+.list-product-in-offer {
+  list-style: none;
+  padding: 0px;
+  margin: 20px 0px;
+}
+
+.list-product-in-offer li {
+  display: inline-flex;
+}
+
+.list-product-in-offer li img {
+  width: 40px;
+  height: 40px;
+}
+
+.list-product-in-offer li .product-title {
+  font-size: 13px;
+  padding: 10px;
+}
+
+.list-product-in-offer li .remove-btn {
+  color: #D11717;
+  font-size: 13px;
+  padding: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
 }
