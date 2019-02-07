@@ -268,3 +268,40 @@ input:checked + .slider:before {
 table tbody tr td {
   padding: 10px;
 }
+
+.page-description {
+  font-size: 14px;
+  color: var(--bold-title-color);
+}
+
+.offer-preview-container {
+  padding: 25px;
+  background-color: #F3F3F3;
+  border-top: 3px solid #EDC505;
+  border-bottom: 3px solid #EDC505;
+}
+
+.offer-product-preview {
+  width: 85px;
+  height: 85px;
+}
+
+.offer-name-preview {
+  font-size: 15px;
+  color: #303031;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.preview-list-menu {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.preview-list-menu a {
+  text-decoration: none;
+  padding: 5px;
+  background-color: #00084B;
+}
