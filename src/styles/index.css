@@ -94,12 +94,15 @@ body {
   display: inline-table;
 }
 
-.list-menu li {
+.list-menu a {
+  text-decoration: none;
+  color: #fff;
   display: table-cell;
   height: 45px;
   padding: 0px;
   vertical-align: middle;
   text-align: center;
+  position: relative;
 }
 
 .list-menu li i {
@@ -107,8 +110,23 @@ body {
 }
 
 .list-menu li:hover {
-  color: var(--active-primary-bg-color);
+  color: var(--primary-bg-color);
   cursor: pointer;
+}
+
+.list-menu .active {
+  color: var(--primary-bg-color)
+}
+
+.list-menu .active::after {
+  content: ' ';
+  border: 1px solid var(--primary-bg-color);
+  background-color: var(--primary-bg-color);
+  bottom: 0px;
+  left: calc(50% - 50px);
+  position: absolute;
+  width: 100px;
+  height: 3px;
 }
 
 .page-title {
@@ -197,4 +215,56 @@ input:checked + .slider:before {
 .btn-action {
   padding: 5px;
   font-size: 15px;
+  cursor: pointer;
+}
+
+.plan-container {
+  background-color: var(--gray-bg-color);
+  padding: 5px;
+  padding-bottom: 20px;
+  text-align: center;
+  height: 400px;
+  position: relative;
+}
+
+.plan-container .title {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.plan-container .title hr {
+  border-top: 1px solid #fff!important;
+}
+
+.plan-container .pricing {
+  color: #BE0F2A;
+  font-size: 17px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.plan-container .features-list {
+  padding: 0px;
+  margin: 10px 0px 50px 0px;
+  list-style-type: none;
+  text-align: center;
+}
+
+.plan-container .features-list li {
+  padding: 5px 0px;
+}
+
+.plan-container button {
+  position: absolute;
+  bottom: 20px;
+  left: calc(50% - 45px);
+}
+
+.detail-plan-container {
+  margin-top: 30px;
+}
+
+table tbody tr td {
+  padding: 10px;
 }
