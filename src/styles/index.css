@@ -414,3 +414,8 @@ table tbody tr td {
   height: 30px;
   width: 50px;
 }
+
+.remove-btn {
+  color: #D11717;
+  cursor: pointer;
+}
