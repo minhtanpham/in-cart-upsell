@@ -1,14 +1,37 @@
 import React from 'react';
-import { Link } from "react-router-dom";
 
 import OfferPreview from './offer_preview';
 import ToggleSwitch from './toggle_switch';
+import CreateOffer from './create_offer';
+import LookAndFeel from './look_and_feel';
 
 export default class OfferPreviewScreen extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            page: 'look'
+        }
+    }
+
+    changePage(page) {
+        this.setState({ page })
+    }
+
+    renderContainerPage(page) {
+        switch (page) {
+            case 'create':
+                return <CreateOffer />
+            case 'look':
+                return <LookAndFeel />
+            case 'when':
+                return <LookAndFeel />
+            default:
+                return <CreateOffer />
+        }
+    }
 
     render() {
-        const { match } = this.props;
 
         return (
             <React.Fragment>
@@ -34,15 +57,9 @@ export default class OfferPreviewScreen extends React.Component {
                             <div className="row">
                                 <div className="col-lg-4">
                                     <ul className="preview-list-menu">
-                                        <Link to={`${match.url}/create_offer`} >
-                                            <li className="active">1. What To Offer</li>
-                                        </Link>
-                                        <Link to={`${match.url}/look_and_feel`} >
-                                            <li>2. Offer Look &amp; Feel</li>
-                                        </Link>
-                                        <Link to={`${match.url}/when_display_offer`} >
-                                            <li>3. When To Show Offer</li>
-                                        </Link>
+                                        <li onClick={() => this.changePage('create')} className={(this.state.page === 'create') ? 'active' : ''} >1. What To Offer</li>
+                                        <li onClick={() => this.changePage('look')} className={(this.state.page === 'look') ? 'active' : ''} >2. Offer Look &amp; Feel</li>
+                                        <li onClick={() => this.changePage('show')} className={(this.state.page === 'show') ? 'active' : ''} >3. When To Show Offer</li>
                                     </ul>
                                     <div className="row no-padding">
                                         <div className="col-lg-12 mrt-10">
@@ -56,20 +73,7 @@ export default class OfferPreviewScreen extends React.Component {
                                     </div>
                                 </div>
                                 <div className="col-lg-8">
-                                    <div className="offer-create-container">
-                                        <h1 className="label">Offer Title</h1><span className="sub-label"> (optional) - not shown to your customers</span>
-                                        <input className="full-width mr-10-0 input-form" type="text" placeholder="Offer title" />
-                                        <h1 className="label">Product(s) Offered</h1>
-                                        <ul className="list-product-in-offer">
-                                            <li>
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Blue_Tshirt.jpg/220px-Blue_Tshirt.jpg" alt="tshirt" />
-                                                <span className="product-title">Short Sleeve T Shirt</span>
-                                                <span className="remove-btn">REMOVE</span>
-                                            </li>
-                                        </ul>
-                                        <span className="sub-label">add a product to the offer (start typing the product name, then select from the list):</span>
-                                        <input className="full-width mr-10-0 input-form" type="text" placeholder="Enter product name here" />
-                                    </div>
+                                    { this.renderContainerPage(this.state.page) }
                                 </div>
                             </div>
                         </div>

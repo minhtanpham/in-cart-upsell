@@ -300,11 +300,8 @@ table tbody tr td {
   padding: 0px;
 }
 
-.preview-list-menu a {
-  text-decoration: none;
-}
-
 .preview-list-menu li {
+  cursor: pointer;
   text-decoration: none;
   padding: 5px;
   background-color: var(--theme-bakcground-color);
@@ -376,4 +373,44 @@ table tbody tr td {
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.inline-color-picker {
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
+
+.inline-picker {
+  display: inline-flex!important;
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.inline-picker .rc-color-picker-trigger {
+  height: 30px;
+  width: 50px;
+}
+
+.custom-btn-group {
+  margin-top: 10px;
+}
+
+.custom-btn-group button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  height: 30px;
+  padding: 0px 10px;
+}
+
+.block-picker {
+  position: relative;
+  display: block;
+}
+
+.block-picker .rc-color-picker-trigger {
+  margin: 5px 0px;
+  height: 30px;
+  width: 50px;
 }

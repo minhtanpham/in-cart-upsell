@@ -102,3 +102,11 @@ input.input-form {
 .block {
     display: block!important;
 }
+
+.text-left {
+    text-align: left!important;
+}
+
+.text-right {
+    text-align: right!important;
+}
