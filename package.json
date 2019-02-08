@@ -1,28 +1,23 @@
 {
   "name": "in-cart-upsell",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "rc-color-picker": "^1.2.6",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.3",
-    "react-slick": "^0.23.2"
-  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node index.js"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minhtanpham/in-cart-upsell.git"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minhtanpham/in-cart-upsell/issues"
+  },
+  "homepage": "https://github.com/minhtanpham/in-cart-upsell#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "password-generator": "^2.2.0"
+  }
 }
