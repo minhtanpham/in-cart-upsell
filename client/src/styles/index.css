@@ -473,11 +473,20 @@ table tbody tr td {
 .stats-block-tab li {
   padding-right: 25px;
   cursor: pointer;
+  position: relative;
 }
 
 .stats-block-tab li.active {
   color: var(--primary-bg-color);
 }
+
+/* .stats-block-tab li.active::after {
+  content: '';
+  display: block;
+  bottom: 0px;
+  height: 2px;
+  background-color: var(--primary-bg-color);
+} */
 
 .list-product {
   list-style: none;

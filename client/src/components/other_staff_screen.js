@@ -13,6 +13,14 @@ export default class OtherStaffScreen extends React.Component {
             <React.Fragment>
                 <div className="container mrt-50">
                     <h1 className="page-title" style={{ paddingLeft: '15px' }}>Dashboard</h1>
+                    <hr
+                        style={{
+                            color: '#ccc',
+                            backgroundColor: '#ccc',
+                            height: 2,
+                            width: '97%'
+                        }}
+                    />
                     <div className="row" style={{ margin: '20px 0px' }}>
                         <div className="col-lg-3">
                             <div className="stats-block">
@@ -82,6 +90,25 @@ export default class OtherStaffScreen extends React.Component {
                                     <ul className="stats-block-tab">
                                         <li className="active">Highest</li>
                                         <li>Lowest</li>
+                                        <hr
+                                            style={{
+                                                color: '#03C3AD',
+                                                backgroundColor: '#03C3AD',
+                                                zIndex: '1',
+                                                height: 2,
+                                                width: '10%',
+                                                position: 'absolute'
+                                            }}
+                                        />
+                                        <hr
+                                            style={{
+                                                color: '#ccc',
+                                                backgroundColor: '#ccc',
+                                                height: 2,
+                                                width: '90%',
+                                                position: 'absolute'
+                                            }}
+                                        />
                                     </ul>
                                 </div>
                                 <div>
@@ -102,6 +129,25 @@ export default class OtherStaffScreen extends React.Component {
                                     <ul className="stats-block-tab">
                                         <li className="active">Highest</li>
                                         <li>Lowest</li>
+                                        <hr
+                                            style={{
+                                                color: '#03C3AD',
+                                                backgroundColor: '#03C3AD',
+                                                zIndex: '1',
+                                                height: 2,
+                                                width: '10%',
+                                                position: 'absolute'
+                                            }}
+                                        />
+                                        <hr
+                                            style={{
+                                                color: '#ccc',
+                                                backgroundColor: '#ccc',
+                                                height: 2,
+                                                width: '90%',
+                                                position: 'absolute'
+                                            }}
+                                        />
                                     </ul>
                                 </div>
                                 <div>
@@ -124,6 +170,25 @@ export default class OtherStaffScreen extends React.Component {
                                     <ul className="stats-block-tab">
                                         <li className="active">Highest</li>
                                         <li>Lowest</li>
+                                        <hr
+                                            style={{
+                                                color: '#03C3AD',
+                                                backgroundColor: '#03C3AD',
+                                                zIndex: '1',
+                                                height: 2,
+                                                width: '10%',
+                                                position: 'absolute'
+                                            }}
+                                        />
+                                        <hr
+                                            style={{
+                                                color: '#ccc',
+                                                backgroundColor: '#ccc',
+                                                height: 2,
+                                                width: '90%',
+                                                position: 'absolute'
+                                            }}
+                                        />
                                     </ul>
                                 </div>
                                 <div>
@@ -144,6 +209,25 @@ export default class OtherStaffScreen extends React.Component {
                                     <ul className="stats-block-tab">
                                         <li className="active">Highest</li>
                                         <li>Lowest</li>
+                                        <hr
+                                            style={{
+                                                color: '#03C3AD',
+                                                backgroundColor: '#03C3AD',
+                                                zIndex: '1',
+                                                height: 2,
+                                                width: '10%',
+                                                position: 'absolute'
+                                            }}
+                                        />
+                                        <hr
+                                            style={{
+                                                color: '#ccc',
+                                                backgroundColor: '#ccc',
+                                                height: 2,
+                                                width: '90%',
+                                                position: 'absolute'
+                                            }}
+                                        />
                                     </ul>
                                 </div>
                                 <div>

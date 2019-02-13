@@ -26,7 +26,10 @@ export default class LookAndFeel extends React.Component {
                     </ColorPicker>
                 </div>
                 <div className="full-width block">
-                    <h1 className="label full-width block text-left">Button Text</h1>
+                    <div className="full-width" style={{ display: 'inline-block' }}>
+                        <h1 className="label text-left" style={{ width: '500px', marginRight: '120px' }}>Button Text</h1>
+                        <h1 className="label text-left">Button Color</h1>
+                    </div>
                     <input className="mr-10-0 input-form" type="text" placeholder="Add to cart" />
                     <ColorPicker
                         color={'#36c'}
@@ -51,7 +54,7 @@ export default class LookAndFeel extends React.Component {
                         <h1 className="label full-width block text-left">Button Border</h1>
                         <div className="btn-group custom-btn-group" role="group" aria-label="button border">
                             <button type="button" className="btn btn-secondary">
-                                <img width="15px" src="https://res.cloudinary.com/tanpham/image/upload/v1549557793/round-border.png" alt="round border"/>
+                                <img width="15px" src="https://res.cloudinary.com/tanpham/image/upload/v1550074483/Group_69.png" alt="round border"/>
                             </button>
                             <button type="button" className="btn btn-secondary">
                                 <img width="15px" src="https://res.cloudinary.com/tanpham/image/upload/v1549557793/rectangle-border.png" alt="rectangle border"/>
@@ -67,7 +70,7 @@ export default class LookAndFeel extends React.Component {
                             alpha={100}
                             onChange={this.changeHandler}
                             placement="topLeft"
-                            className="inline-picker"
+                            className="inline-picker no-margin-left"
                         >
                             <span className="rc-color-picker-trigger" />
                         </ColorPicker>
@@ -79,15 +82,16 @@ export default class LookAndFeel extends React.Component {
                     <div>
                         <h1 className="label full-width block text-left">Border Style</h1>
                         <div className="btn-group custom-btn-group" role="group" aria-label="button border">
-                            <button type="button" className="btn btn-secondary">
-                                <img width="35px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558710/border-solid.png" alt="solid border"/>
-                            </button>
-                            <button type="button" className="btn btn-secondary">
-                                <img width="35px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558710/border-dashed.png" alt="dashed border"/>
-                            </button>
-                            <button type="button" className="btn btn-secondary">
-                                <img width="35px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558838/dotted_border.png" alt="dotted border"/>
-                            </button>
+                            <div className="dropdown">
+                                <button className="btn dropdown-toggle" type="button" data-toggle="dropdown" style={{ width: '100px' }}>
+                                    <img width="50px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558710/border-solid.png" alt="solid border"/>
+                                    <span className="caret"></span></button>
+                                <ul className="dropdown-menu">
+                                    <li className="text-center"><img width="50px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558710/border-solid.png" alt="solid border"/></li>
+                                    <li className="text-center"><img width="50px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558710/border-dashed.png" alt="dashed border"/></li>
+                                    <li className="text-center"><img width="50px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558838/dotted_border.png" alt="dotted border"/></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

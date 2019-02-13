@@ -19,8 +19,11 @@ export default class Navigation extends React.Component {
                     <Link to={`${match.url}/setting`}>
                         <li className={(pathName === '/app/setting') ? 'active' : ''}><i className="fa fa-bar-chart" aria-hidden="true"></i> Settings</li>
                     </Link>
-                    <Link to={`${match.url}/staff`}>
-                        <li className={(pathName === '/app/staff') ? 'active' : ''}><i className="fa fa-sliders" aria-hidden="true"></i> Other Staff</li>
+                    <Link to={`${match.url}/stats`}>
+                        <li className={(pathName === '/app/stats') ? 'active' : ''}><i className="fa fa-sliders" aria-hidden="true"></i> Other Stats</li>
+                    </Link>
+                    <Link to={`${match.url}/plan`}>
+                        <li className={(pathName === '/app/plan') ? 'active' : ''}><i className="fa fa-bar-chart" aria-hidden="true"></i> Plan</li>
                     </Link>
                     <Link to={`${match.url}/feedback`}>
                         <li className={(pathName === '/app/feedback') ? 'active' : ''}><i className="fa fa-commenting-o" aria-hidden="true"></i> Feedback</li>

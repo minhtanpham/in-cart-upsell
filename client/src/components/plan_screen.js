@@ -52,25 +52,25 @@ export default class SettingScreen extends React.Component {
                     <table style={{width: '100%', margin: '10px 15px' }}>
                         <thead>
                             <tr>
-                                <th>Features</th>
-                                <th>Status</th>
+                                <th style={{ textAlign: 'center' }}>Features</th>
+                                <th style={{ textAlign: 'center' }}>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Plan</td>
+                                <td style={{ borderRight: '1px solid #ccc', width: '200px' }}>Plan</td>
                                 <td>Free</td>
                             </tr>
                             <tr>
-                                <td>Active Offers</td>
+                                <td style={{ borderRight: '1px solid #ccc', width: '200px' }}>Active Offers</td>
                                 <td>0 of 1</td>
                             </tr>
                             <tr>
-                                <td>Branding</td>
+                                <td style={{ borderRight: '1px solid #ccc', width: '200px' }}>Branding</td>
                                 <td>"Powered By Core" displayed on offers</td>
                             </tr>
                             <tr>
-                                <td>AJAX</td>
+                                <td style={{ borderRight: '1px solid #ccc', width: '200px' }}>AJAX</td>
                                 <td>NOT Supported</td>
                             </tr>
                         </tbody>
