@@ -185,12 +185,16 @@ tbody tr {
   left: 1px;
   top: 1px;
   bottom: 4px;
-  background-color: var(--active-primary-bg-color);
+  background-color: #fff;
   transition: .4s;
 }
 
 input:checked + .slider {
   background-color: #ccc;
+}
+
+input:checked + .slider:before {
+  background-color: var(--active-primary-bg-color);
 }
 
 input:focus + .slider {

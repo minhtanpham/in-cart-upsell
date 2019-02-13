@@ -14,9 +14,9 @@ class App extends Component {
           <div className="app">
               <Route exact path="/" component={WelcomeScreen} />
               <Route path="/app" component={AppScreen} />
-            <WelcomePopup />
           </div>
         </Router>
+        <WelcomePopup />
       </AppProvider>
     );
   }
