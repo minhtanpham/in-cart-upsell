@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TermAndConditions from './term_and_conditions';
+import WelcomePopup from '../components/welcome_popup';
 
 export default class WelcomeScreen extends React.Component {
 
@@ -14,6 +15,7 @@ export default class WelcomeScreen extends React.Component {
                         <button className="btn btn-primary btn-large center" data-toggle="modal" data-target="#exampleModal">Accept and Continue</button>
                     </div>
                 </div>
+                <WelcomePopup />
             </div>
         )
     }

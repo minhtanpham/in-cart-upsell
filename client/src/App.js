@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import AppProvider from './components/context';
 import WelcomeScreen from './components/welcome_screen';
-import WelcomePopup from './components/welcome_popup';
 import AppScreen from './components/app_screen';
 
 class App extends Component {
@@ -16,7 +15,6 @@ class App extends Component {
               <Route path="/app" component={AppScreen} />
           </div>
         </Router>
-        <WelcomePopup />
       </AppProvider>
     );
   }
