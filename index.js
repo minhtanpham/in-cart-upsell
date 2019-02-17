@@ -1,34 +1,56 @@
+'use strict';
+const mongoose = require('mongoose');
+const body = require('body-parser');
 const express = require('express');
-const path = require('path');
-const generatePassword = require('password-generator');
+const path = require("path");
+const cors = require('cors');
+const server = express();
 
-const app = express();
+const api = require('./controller/apis');
+
+require('dotenv').config({path: __dirname + '/.env'})
+
+const MONGO_URL = process.env.MONGODB_URL;
+const PORT = process.env.PORT || 5000;
+
+const auth = require('./controller/auth');
+
+console.log(`Connecting to ${MONGO_URL}`);
+mongoose.connect(MONGO_URL, { useNewUrlParser: true });
+mongoose.Promise = global.Promise;
+const db = mongoose.connection;
+
+server.use(body.json());
+server.use(cors());
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+server.use(express.static(path.join(__dirname, 'client/build')));
 
-// Put all API endpoints under '/api'
-app.get('/api/passwords', (req, res) => {
-  const count = 5;
-
-  // Generate some passwords
-  const passwords = Array.from(Array(count).keys()).map(i =>
-    generatePassword(12, false)
-  )
-
-  // Return them as json
-  res.json(passwords);
-
-  console.log(`Sent ${count} passwords`);
+// request database connection
+server.use((req, res, next) => {
+  req.db = db;
+  next();
 });
+
+server.use(function(req, res, next) {  
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+server.use('/greeting',(req, res) => {
+  res.send('Welcome guest!!')
+});
+
+server.use('/shopify', auth(db));
+
+server.use('/api', api(db));
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
-app.get('*', (req, res) => {
+server.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
-const port = process.env.PORT || 5000;
-app.listen(port);
-
-console.log(`Password generator listening on ${port}`);
+server.listen(PORT);
+console.log(`The server is running on port ${PORT}`);

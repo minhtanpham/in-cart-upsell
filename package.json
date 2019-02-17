@@ -17,7 +17,19 @@
   },
   "homepage": "https://github.com/minhtanpham/in-cart-upsell#readme",
   "dependencies": {
+    "archetype-js": "^0.6.1",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "co": "^4.6.0",
+    "cookie": "^0.3.1",
+    "cookie-session": "^2.0.0-beta.3",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "password-generator": "^2.2.0"
+    "mongoose": "^5.4.13",
+    "nonce": "^1.0.4",
+    "public-ip": "^3.0.0",
+    "querystring": "^0.2.0"
   }
 }
