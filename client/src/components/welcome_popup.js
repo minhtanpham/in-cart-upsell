@@ -1,5 +1,6 @@
 import React from 'react';
 import Slider from "react-slick";
+import axios from 'axios';
 
 const settings = {
     dots: true,
@@ -9,7 +10,29 @@ const settings = {
     slidesToScroll: 1
 };
 
+const shopify_domain = 'upsell-application-store.myshopify.com'
+const access_token = '1ff23057588e98a6f06bf678eca98c25'
+
 export default class WelcomePopup extends React.Component {
+
+    state = {}
+
+    accept_term() {
+        debugger
+        axios('http://localhost:5000/api/accept', {
+            method: 'POST',
+            params: {
+                shop: shopify_domain
+            }
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
     render() {
         return (
             <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -31,7 +54,7 @@ export default class WelcomePopup extends React.Component {
                     </div>
                     <div className="slider-footer">
                         <button type="button" className="btn btn-dark" data-dismiss="modal">Skip for now</button>
-                        <button type="button" className="btn btn-primary float-right">Ready to roll</button>
+                        <button type="button" className="btn btn-primary float-right" onClick={() => this.accept_term()}>Ready to roll</button>
                     </div>
                 </div>
                 </div>

@@ -38,6 +38,20 @@ module.exports = db => {
     }
   }));
 
+  //- create new user
+  router.post('/accept', wrapAsync(async function(req) {
+    const shop = req.query.shop;
+    try {
+      var result = await db.collection('users').updateOne(
+        { "myshopify_domain" : shop },
+        { $set: { "accept" : true } }
+      )
+      return result;
+    } catch (error) {
+      return error
+    }
+  }));
+
   //- get list all products from store
   router.get('/list/products', async function(req, res) {
     let shop = req.query.shop;

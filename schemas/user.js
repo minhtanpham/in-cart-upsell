@@ -31,4 +31,8 @@ module.exports = new Archetype({
     $type: Date,
     $default: new Date()
   },
+  accept: {
+    $type: 'boolean',
+    $default: false
+  }
 }).compile('UserType');
