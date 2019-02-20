@@ -25,6 +25,17 @@ module.exports = db => {
       res.send("127.0.0.1");
     }
   });
+
+  //- get user from shop name
+  router.get('/user', wrapAsync(async function(req) {
+    const shop = req.query.shop;
+    try {
+      var result = await db.collection('users').findOne({ myshopify_domain: shop })
+      return result;
+    } catch (error) {
+      return error
+    }
+  }));
   
   //- create new user
   router.post('/users', wrapAsync(async function(req) {
@@ -48,7 +59,7 @@ module.exports = db => {
       )
       return result;
     } catch (error) {
-      return error
+      throw new Error(error);
     }
   }));
 
@@ -57,6 +68,26 @@ module.exports = db => {
     let shop = req.query.shop;
     let token = req.query.token;
     let request_url = 'https://' + shop + '/admin/products.json';
+    try {
+      var response = await axios(request_url, {
+        method: 'GET',
+        headers: {
+          'X-Shopify-Access-Token': token
+        }
+      });  
+      res.send(response.data);
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  });
+
+  //- get list all products from store
+  router.get('/products', async function(req, res) {
+    let shop = req.query.shop;
+    let token = req.query.token;
+    let product_id = req.query.product_id;
+    let request_url = 'https://' + shop + '/admin/products/' + product_id + '.json';
     try {
       var response = await axios(request_url, {
         method: 'GET',

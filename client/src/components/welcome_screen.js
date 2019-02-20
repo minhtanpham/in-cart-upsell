@@ -1,9 +1,26 @@
 import React from 'react';
+import setting from '../const';
+import axios from 'axios';
 
 import TermAndConditions from './term_and_conditions';
 import WelcomePopup from '../components/welcome_popup';
 
 export default class WelcomeScreen extends React.Component {
+
+    componentWillMount() {
+        axios(`${setting.host}/api/user`, {
+            method: 'GET',
+            params: {
+                shop: setting.shop
+            }
+        })
+        .then(function (response) {
+            if (response.data.accept) window.location.href = "/app";
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
 
     render() {
         return (

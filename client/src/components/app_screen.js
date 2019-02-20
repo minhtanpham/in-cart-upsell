@@ -18,7 +18,7 @@ export default class AppScreen extends React.Component {
                         <Navigation match={match} />
                         <Route exact path={`${match.url}/`} component={ListOffer} />
                         <Route exact path={`${match.url}/plan`} component={PlanScreen} />
-                        <Route exact path={`${match.url}/preview`} component={OfferPreviewScreen} />
+                        <Route exact path={`${match.url}/setting`} component={OfferPreviewScreen} />
                         <Route exact path={`${match.url}/stats`} component={OtherStaffScreen} />
                         <Route exact path={`${match.url}/feedback`} component={FeedbackScreen} />
                     </React.Fragment>

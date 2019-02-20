@@ -1,6 +1,7 @@
 import React from 'react';
 import Slider from "react-slick";
 import axios from 'axios';
+import setting from '../const';
 
 const settings = {
     dots: true,
@@ -9,20 +10,15 @@ const settings = {
     slidesToShow: 1,
     slidesToScroll: 1
 };
-
-const shopify_domain = 'upsell-application-store.myshopify.com'
-const access_token = '1ff23057588e98a6f06bf678eca98c25'
-
 export default class WelcomePopup extends React.Component {
 
     state = {}
 
     accept_term() {
-        debugger
-        axios('http://localhost:5000/api/accept', {
+        axios(`${setting.host}/api/accept`, {
             method: 'POST',
             params: {
-                shop: shopify_domain
+                shop: setting.shop
             }
         })
         .then(function (response) {
