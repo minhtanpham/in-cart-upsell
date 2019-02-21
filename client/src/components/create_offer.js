@@ -44,9 +44,11 @@ export default class CreateOffer extends React.Component {
             }
         })
         .then(function (response) {
+            let selected = [...self.state.select_products, response.data.product]
             self.setState(prevState => ({
-                select_products: [...prevState.select_products, response.data.product]
+                select_products: selected
             }))
+            self.props.handleChangeListProducts(selected)
         })
         .catch(function (error) {
             console.log(error);
@@ -80,15 +82,20 @@ export default class CreateOffer extends React.Component {
             if (array[i].id === id) {
                 array.splice(i, 1);
                 this.setState({select_products: array});
+                this.props.handleChangeListProducts(array);
             }
         }
+    }
+
+    handleChangeEventHeadline() {
+
     }
 
     render() {
         return (
             <div className="offer-create-container">
                 <h1 className="label">Offer Title</h1><span className="sub-label"> (optional) - not shown to your customers</span>
-                <input className="full-width mr-10-0 input-form" type="text" placeholder="Offer title" />
+                <input className="full-width mr-10-0 input-form" type="text" placeholder="Offer title" onChange={(e) => this.props.handleChangeOfferTitle(e.target.value)} value={this.state.offer_title}/>
                 <h1 className="label">Product(s) Offered</h1>
                 <ul className="list-product-in-offer">
                     { this.renderListSelectedProduct() }
