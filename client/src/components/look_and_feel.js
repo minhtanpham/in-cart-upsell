@@ -5,6 +5,14 @@ import ColorPicker from 'rc-color-picker';
 
 export default class LookAndFeel extends React.Component {
 
+    constructor(props) {
+        super(props)
+        this.handleChangeHeadlineColor = this.handleChangeHeadlineColor.bind(this)
+        this.handleChangeButtonColor = this.handleChangeButtonColor.bind(this)
+        this.handleChangeBorderColor = this.handleChangeBorderColor.bind(this)
+        this.handleChangeBackgroundColor = this.handleChangeBackgroundColor.bind(this)
+    }
+
     handleChangeHeadlineColor(color) {
         this.props.handleChangeHeadlineColor(color.color);
     }
@@ -56,19 +64,19 @@ export default class LookAndFeel extends React.Component {
                 <div className="full-width" style={{ display: 'inline-flex' }}>
                     <div style={{ marginRight: '15px' }}>
                         <h1 className="label full-width block text-left">Width</h1>
-                        <input className="mr-10-0 input-form" type="number" value={this.props.data.width} onChange={(e) => this.handleChangeWidth(e.target.value)} />
+                        <input className="mr-10-0 input-form" type="number" value={this.props.data.width} onChange={(e) => this.props.handleChangeWidth(e.target.value)} />
                     </div>
                     <div style={{ marginRight: '15px' }}>
                         <h1 className="label full-width block text-left">Height</h1>
-                        <input className="mr-10-0 input-form" type="number" value={this.props.data.height} onChange={(e) => this.handleChangeHeight(e.target.value)} />
+                        <input className="mr-10-0 input-form" type="number" value={this.props.data.height} onChange={(e) => this.props.handleChangeHeight(e.target.value)} />
                     </div>
                     <div>
                         <h1 className="label full-width block text-left">Button Border</h1>
                         <div className="btn-group custom-btn-group" role="group" aria-label="button border">
-                            <button type="button" className="btn btn-secondary" onClick={() => this.handleChangeBorderRadius(5)}>
+                            <button type="button" className="btn btn-secondary" onClick={() => this.props.handleChangeBorderRadius(5)}>
                                 <img width="15px" src="https://res.cloudinary.com/tanpham/image/upload/v1550074483/Group_69.png" alt="round"/>
                             </button>
-                            <button type="button" className="btn btn-secondary" onClick={() => this.handleChangeBorderRadius(0)}>
+                            <button type="button" className="btn btn-secondary" onClick={() => this.props.handleChangeBorderRadius(0)}>
                                 <img width="15px" src="https://res.cloudinary.com/tanpham/image/upload/v1549557793/rectangle-border.png" alt="rectangle"/>
                             </button>
                         </div>
@@ -99,13 +107,13 @@ export default class LookAndFeel extends React.Component {
                                     <img width="50px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558710/border-solid.png" alt="solid border"/>
                                     <span className="caret"></span></button>
                                 <ul className="dropdown-menu">
-                                    <li className="text-center" onClick={() => this.handleChangeBorderStyle('solid')}>
+                                    <li className="text-center" onClick={() => this.props.handleChangeBorderStyle('solid')}>
                                         <img width="50px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558710/border-solid.png" alt="solid border"/>
                                     </li>
-                                    <li className="text-center" onClick={() => this.handleChangeBorderStyle('dashed')}>
+                                    <li className="text-center" onClick={() => this.props.handleChangeBorderStyle('dashed')}>
                                         <img width="50px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558710/border-dashed.png" alt="dashed border"/>
                                     </li>
-                                    <li className="text-center" onClick={() => this.handleChangeBorderStyle('dotted')}>
+                                    <li className="text-center" onClick={() => this.props.handleChangeBorderStyle('dotted')}>
                                         <img width="50px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558838/dotted_border.png" alt="dotted border"/>
                                     </li>
                                 </ul>

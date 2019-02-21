@@ -21,7 +21,7 @@ export default class OfferPreviewScreen extends React.Component {
             width: 100,
             height: 20,
             button_border: 1,
-            border_color: '#000',
+            border_color: '#03C3AD',
             border_size: 1,
             border_style: 'rectangle',
             border_radius: 0,
