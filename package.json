@@ -30,6 +30,7 @@
     "mongoose": "^5.4.13",
     "nonce": "^1.0.4",
     "public-ip": "^3.0.0",
-    "querystring": "^0.2.0"
+    "querystring": "^0.2.0",
+    "rc-switch": "^1.9.0"
   }
 }

@@ -283,6 +283,8 @@ table tbody tr td {
   background-color: #F3F3F3;
   border-top: 3px solid #EDC505;
   border-bottom: 3px solid #EDC505;
+  border-left: none;
+  border-right: none;
 }
 
 .offer-product-preview {

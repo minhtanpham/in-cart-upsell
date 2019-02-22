@@ -1,10 +1,10 @@
 import React from 'react';
 
 import OfferPreview from './offer_preview';
-import ToggleSwitch from './toggle_switch';
 import CreateOffer from './create_offer';
 import LookAndFeel from './look_and_feel';
 import WhenShow from './when_show_offer';
+import Switch from "react-switch";
 
 export default class OfferPreviewScreen extends React.Component {
 
@@ -12,6 +12,7 @@ export default class OfferPreviewScreen extends React.Component {
         super(props);
         this.state = {
             page: 'create',
+            status: true,
             offer_title: '',
             list_products: [],
             offer_headline: 'Would you like to add a Short Sleeve T Shirt for $9.99?',
@@ -23,7 +24,7 @@ export default class OfferPreviewScreen extends React.Component {
             button_border: 1,
             border_color: '#03C3AD',
             border_size: 1,
-            border_style: 'rectangle',
+            border_style: 'solid',
             border_radius: 0,
             background_color: '#ccc',
             show_product_image: true,
@@ -31,7 +32,10 @@ export default class OfferPreviewScreen extends React.Component {
             link_product: true,
             show_x: true,
             choose_quantity: true,
-            auto_remove: false
+            auto_remove: false,
+            condition: [
+                { wrapCondition: 'all', mainCondition: 'contain_at_least', number: 0, id: '' }
+            ]
         }
         this.handleChangeOfferTitle = this.handleChangeOfferTitle.bind(this)
         this.handleChangeListProducts = this.handleChangeListProducts.bind(this)
@@ -53,10 +57,21 @@ export default class OfferPreviewScreen extends React.Component {
         this.handleChangeShowX=this.handleChangeShowX.bind(this)
         this.handleChangeChooseQuantity=this.handleChangeChooseQuantity.bind(this)
         this.handleChangeAutoRemove=this.handleChangeAutoRemove.bind(this)
+        this.handleChangeWrapCondition=this.handleChangeWrapCondition.bind(this)
+        this.handleChangeMainCondition=this.handleChangeMainCondition.bind(this)
+        this.handleChangeConditionNumber=this.handleChangeConditionNumber.bind(this)
+        this.handleChangeProductConditionID=this.handleChangeProductConditionID.bind(this)
+        this.handleAddRule=this.handleAddRule.bind(this)
+        this.handleRemoveRule=this.handleRemoveRule.bind(this)
+        this.changeStatus=this.changeStatus.bind(this)
     }
 
     changePage(page) {
         this.setState({ page })
+    }
+
+    changeStatus() {
+        this.setState({ status: !this.state.status })
     }
 
     handleChangeOfferTitle(title) {
@@ -139,6 +154,45 @@ export default class OfferPreviewScreen extends React.Component {
         this.setState({ auto_remove: !this.state.auto_remove })
     }
 
+    handleChangeWrapCondition(condition, index) {
+        let conditionTemp = this.state.condition
+        conditionTemp[index].wrapCondition = condition
+        this.setState({ condition:  conditionTemp })
+    }
+
+    handleChangeMainCondition(condition, index) {
+        let conditionTemp = this.state.condition
+        conditionTemp[index].mainCondition = condition
+        this.setState({ condition:  conditionTemp })
+    }
+
+    handleChangeConditionNumber(number, index) {
+        let conditionTemp = this.state.condition
+        conditionTemp[index].number = number
+        this.setState({ condition:  conditionTemp })
+    }
+
+    handleChangeProductConditionID(id, index) {
+        let conditionTemp = this.state.condition
+        conditionTemp[index].id = id
+        this.setState({ condition:  conditionTemp })
+    }
+
+    handleAddRule() {
+        let current_rule = this.state.condition
+        let new_rule = { wrapCondition: 'all', mainCondition: 'contain_at_least', number: 0, id: '' }
+        current_rule.push(new_rule);
+        this.setState({ condition: current_rule })
+    }
+
+    handleRemoveRule(index) {
+        let rules = this.state.condition;
+        if (index > -1) {
+            rules.splice(index, 1);
+        }
+        this.setState({ condition: rules })
+    }
+
     renderContainerPage(page) {
         switch (page) {
             case 'create':
@@ -166,7 +220,15 @@ export default class OfferPreviewScreen extends React.Component {
                             handleChangeAutoRemove={this.handleChangeAutoRemove}
                         />
             case 'when':
-                return <WhenShow />
+                return <WhenShow
+                            data={this.state.condition}
+                            handleChangeWrapCondition={this.handleChangeWrapCondition}
+                            handleChangeMainCondition={this.handleChangeMainCondition}
+                            handleChangeConditionNumber={this.handleChangeConditionNumber}
+                            handleChangeProductConditionID={this.handleChangeProductConditionID}
+                            handleAddRule={this.handleAddRule}
+                            handleRemoveRule={this.handleRemoveRule}
+                        />
             default:
                 return <CreateOffer />
         }
@@ -208,8 +270,12 @@ export default class OfferPreviewScreen extends React.Component {
                                             <button className="btn btn-dark">Cancel</button>
                                         </div>
                                         <div className="col-lg-12 mrt-10">
-                                            <span className="full-width block">Status: Enable</span>
-                                            <ToggleSwitch />
+                                            <span className="full-width block">
+                                                {
+                                                    this.state.status ? 'Status: Enable' : 'Status: Disable'
+                                                }
+                                            </span>
+                                            <Switch onChange={this.changeStatus} checked={this.state.status} />
                                         </div>
                                     </div>
                                 </div>

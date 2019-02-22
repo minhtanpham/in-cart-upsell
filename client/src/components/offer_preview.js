@@ -10,8 +10,11 @@ export default class OfferPreview extends React.Component {
                     backgroundColor: `${this.props.data.background_color}`,
                     borderTopColor: `${this.props.data.border_color}`,
                     borderBottomColor: `${this.props.data.border_color}`,
-                    borderWidth: `${this.props.border_size}px`,
-                    borderStyle: `${this.props.border_style} `
+                    borderTopWidth: `${this.props.data.border_size}px`,
+                    borderBottomWidth: `${this.props.data.border_size}px`,
+                    borderStyle: `${this.props.data.border_style} `,
+                    borderLeftWidth: `0px`,
+                    borderRightWidth: `0px`
                 }}
             >
                 <div className="row">
