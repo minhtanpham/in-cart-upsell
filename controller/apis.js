@@ -2,7 +2,7 @@
 
 const Archetype = require('archetype-js');
 const UserType = require('../schemas/user');
-// const OfferType = require('../schemas/offers');
+const OfferType = require('../schemas/offer');
 // const UIType = require('../schemas/ui');
 const { ObjectId } = require('mongodb');
 const express = require('express');
@@ -117,7 +117,7 @@ module.exports = db => {
   // create new offers
   router.post('/create/offer', async function(req, res) {
     try {
-      const offer = new OfferType(req.body);
+      const offer = new OfferType(req.query);
       await db.collection('Offers').insertOne(offer);
       res.send(offer); 
     } catch (error) {

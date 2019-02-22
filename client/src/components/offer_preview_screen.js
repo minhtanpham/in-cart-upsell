@@ -5,6 +5,8 @@ import CreateOffer from './create_offer';
 import LookAndFeel from './look_and_feel';
 import WhenShow from './when_show_offer';
 import Switch from "react-switch";
+import axios from 'axios';
+import setting from '../const';
 
 export default class OfferPreviewScreen extends React.Component {
 
@@ -193,6 +195,45 @@ export default class OfferPreviewScreen extends React.Component {
         this.setState({ condition: rules })
     }
 
+    saveOffer() {
+        var self = this;
+        axios(`${setting.host}/api/create/offer`, {
+            method: 'POST',
+            params: {
+                shop: setting.shop,
+                status: self.state.status,
+                offer_title: self.state.offer_title,
+                list_products: JSON.stringify(self.state.list_products),
+                offer_headline: self.state.offer_headline,
+                headline_color: self.state.headline_color,
+                button_text: self.state.button_text,
+                button_color: self.state.button_color,
+                width: self.state.width,
+                height: self.state.height,
+                button_border: self.state.button_border,
+                border_color: self.state.border_color,
+                border_size: self.state.border_size,
+                border_style: self.state.border_style,
+                border_radius: self.state.border_radius,
+                background_color: self.state.background_color,
+                show_product_image: self.state.show_product_image,
+                hide_out_of_stock: self.state.hide_out_of_stock,
+                link_product: self.state.link_product,
+                show_x: self.state.show_x,
+                choose_quantity: self.state.choose_quantity,
+                auto_remove: self.state.auto_remove,
+                condition: JSON.stringify(self.state.condition),
+                createdAt: new Date()
+            }
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
     renderContainerPage(page) {
         switch (page) {
             case 'create':
@@ -266,7 +307,7 @@ export default class OfferPreviewScreen extends React.Component {
                                     </ul>
                                     <div className="row no-padding">
                                         <div className="col-lg-12 mrt-10">
-                                            <button className="btn btn-primary mrr-10">Save Offer</button>
+                                            <button className="btn btn-primary mrr-10" onClick={() => this.saveOffer()}>Save Offer</button>
                                             <button className="btn btn-dark">Cancel</button>
                                         </div>
                                         <div className="col-lg-12 mrt-10">
