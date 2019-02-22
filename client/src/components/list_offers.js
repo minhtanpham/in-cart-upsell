@@ -1,8 +1,89 @@
 import React from 'react';
-import ToggleSwitch from './toggle_switch';
-import ReactTooltip from 'react-tooltip'
+import Switch from "react-switch";
+import ReactTooltip from 'react-tooltip';
+import axios from 'axios';
+import setting from '../const';
 
 export default class ListOffer extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            offers: []
+        }
+    }
+
+    fethData() {
+        let self = this
+        axios(`${setting.host}/api/list/offers`, {
+            method: 'GET',
+            params: {
+                shop: setting.shop
+            }
+        })
+        .then(function (response) {
+            self.setState({ offers: response.data })
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    componentDidMount() {
+        this.fethData();
+    }
+
+    handleUpdateStatusOffer(id, status) {
+        let self = this
+        let parsedStatus = (status.toLowerCase() === "true");
+        axios(`${setting.host}/api/update/status/offer`, {
+            method: 'POST',
+            params: {
+                shop: setting.shop,
+                id: id,
+                status: !parsedStatus
+            }
+        })
+        .then(function (response) {
+            self.fethData()
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    handleRemoveOffer(id) {
+        let self = this
+        axios(`${setting.host}/api/update/remove/offer`, {
+            method: 'POST',
+            params: {
+                id: id
+            }
+        })
+        .then(function (response) {
+            self.fethData()
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    handleDuplicateOffer(id) {
+        let self = this
+        axios(`${setting.host}/api/update/dupplicate/offer`, {
+            method: 'POST',
+            params: {
+                id: id
+            }
+        })
+        .then(function (response) {
+            self.fethData()
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
     render() {
         return (
             <div className="container card pd-20 mrt-50">
@@ -19,39 +100,27 @@ export default class ListOffer extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Black Hat</td>
-                            <td>25%</td>
-                            <td><ToggleSwitch /></td>
-                            <td>
-                                <i data-tip="Edit" className="fa fa-pencil btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Edit"></i>
-                                <i data-tip="Duplicate" className="fa fa-files-o btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Duplicate"></i>
-                                <i data-tip="remove" className="fa fa-trash btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Duplicate"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Black Hat</td>
-                            <td>25%</td>
-                            <td><ToggleSwitch /></td>
-                            <td>
-                                <i data-tip="Edit" className="fa fa-pencil btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Edit"></i>
-                                <i data-tip="Duplicate" className="fa fa-files-o btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Duplicate"></i>
-                                <i data-tip="remove" className="fa fa-trash btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Duplicate"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Black Hat</td>
-                            <td>25%</td>
-                            <td><ToggleSwitch /></td>
-                            <td>
-                                <i data-tip="Edit" className="fa fa-pencil btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Edit"></i>
-                                <i data-tip="Duplicate" className="fa fa-files-o btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Duplicate"></i>
-                                <i data-tip="remove" className="fa fa-trash btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Duplicate"></i>
-                            </td>
-                        </tr>
+                        {
+                            this.state.offers && (
+                                this.state.offers.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index}</td>
+                                            <td>{item.offer_title}</td>
+                                            <td>0%</td>
+                                            <td>
+                                                <Switch onChange={() => this.handleUpdateStatusOffer(item._id, item.status)} checked={(item.status.toLowerCase() === 'true')} />
+                                            </td>
+                                            <td>
+                                                <i data-tip="Edit" className="fa fa-pencil btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Edit" onClick={() => this.handleRemoveOffer(item._id)}></i>
+                                                <i data-tip="Duplicate" className="fa fa-files-o btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Duplicate" onClick={() => this.handleDuplicateOffer(item._id)}></i>
+                                                <i data-tip="remove" className="fa fa-trash btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Remove" onClick={() => this.handleRemoveOffer(item._id)}></i>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            )
+                        }
                     </tbody>
                 </table>
             </div>

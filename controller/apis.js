@@ -77,7 +77,6 @@ module.exports = db => {
       });  
       res.send(response.data);
     } catch (error) {
-      console.log(error);
       throw new Error(error);
     }
   });
@@ -97,7 +96,6 @@ module.exports = db => {
       });  
       res.send(response.data);
     } catch (error) {
-      console.log(error);
       throw new Error(error);
     }
   });
@@ -106,7 +104,6 @@ module.exports = db => {
   router.get('/list/offers', async function(req, res) {
     try {
       let shop = req.query.shop;
-      console.log(shop);
       var result = await db.collection('Offers').find({ shop: shop }).sort({ createdAt: -1 }).toArray();
       res.send(result);
     } catch (error) {
@@ -125,6 +122,42 @@ module.exports = db => {
     }
   });
 
+  // create new offers
+  router.post('/update/status/offer', async function(req, res) {
+    try {
+      let shop = req.query.shop;
+      let id = req.query.id;
+      let status = req.query.status;
+      let result = await db.collection('Offers').updateOne({_id: Archetype.to(id, ObjectId), shop: shop}, { $set: { status: status }});
+      return result;
+    } catch (error) {
+      throw new Error(error);
+    }
+  });
+
+  // update an offers
+  router.post('/update/dupplicate/offer', async function(req, res) {
+    try {
+      let id = req.query.id;
+      var the_old_offer = await db.collection('Offers').findOne({ _id: Archetype.to(id, ObjectId) });
+      let result = await db.collection('Offers').insertOne(the_old_offer);
+      return result;
+    } catch (error) {
+      throw new Error(error);
+    }
+  });
+
+  // remove an offers
+  router.post('/update/remove/offer', async function(req, res) {
+    try {
+      let id = req.query.id;
+      let result = await db.collection('Offers').removeOne({_id: Archetype.to(id, ObjectId)});
+      return result;
+    } catch (error) {
+      throw new Error(error);
+    }
+  });
+
   //- get list all ui
   router.get('/list/ui', async function(req, res) {
     try {
@@ -137,31 +170,31 @@ module.exports = db => {
   });
 
   //- get list all offers
-  router.post('/update/ui', async function(req, res) {
-    try {
-      let shop = req.body.shop;
-      var result = await db.collection('Ui').findOne({ shop: shop });
-      const ui = new UIType(req.body);
-      if (result !== null) { //- shop not have any UI
-        db.collection('Ui').updateOne(
-          { "shop" : shop },
-          { $set: {
-            "background_color": req.body.background_color,
-            "button_color": req.body.button_color,
-            "createdAt": req.body.createdAt,
-            "shop": req.body.shop,
-            "text_color": req.body.text_color,
-            "text_size": req.body.text_size
-          }}
-        )
-      } else {
-        db.collection('Ui').insertOne(ui);
-      }
-      res.send(ui);
-    } catch (error) {
-      throw new Error(error);
-    }
-  });
+  // router.post('/update/ui', async function(req, res) {
+  //   try {
+  //     let shop = req.body.shop;
+  //     var result = await db.collection('Ui').findOne({ shop: shop });
+  //     const ui = new UIType(req.body);
+  //     if (result !== null) { //- shop not have any UI
+  //       db.collection('Ui').updateOne(
+  //         { "shop" : shop },
+  //         { $set: {
+  //           "background_color": req.body.background_color,
+  //           "button_color": req.body.button_color,
+  //           "createdAt": req.body.createdAt,
+  //           "shop": req.body.shop,
+  //           "text_color": req.body.text_color,
+  //           "text_size": req.body.text_size
+  //         }}
+  //       )
+  //     } else {
+  //       db.collection('Ui').insertOne(ui);
+  //     }
+  //     res.send(ui);
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  // });
 
   // router.get('/', wrapAsync(async function(req) {
   //   return db.collection('Book').find().sort({ createdAt: -1 }).toArray()
