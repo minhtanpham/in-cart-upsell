@@ -6,7 +6,7 @@ import setting from '../const';
 
 const parseBoolean = (context) => {
     if (typeof context === 'boolean') return context
-    return (context.toLowerCase() == "true");
+    return (context.toLowerCase() === "true");
 }
 
 export default class ListOffer extends React.Component {

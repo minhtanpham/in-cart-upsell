@@ -129,7 +129,7 @@ module.exports = db => {
       let id = req.query.id;
       let status = req.query.status;
       let result = await db.collection('Offers').updateOne({_id: Archetype.to(id, ObjectId), shop: shop}, { $set: { status: status }});
-      return result;
+      res.send(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -140,8 +140,10 @@ module.exports = db => {
     try {
       let id = req.query.id;
       var the_old_offer = await db.collection('Offers').findOne({ _id: Archetype.to(id, ObjectId) });
-      let result = await db.collection('Offers').insertOne(the_old_offer);
-      return result;
+      delete the_old_offer._id
+      const new_offer = new OfferType(the_old_offer);
+      let result = await db.collection('Offers').insertOne(new_offer);
+      res.send(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -152,7 +154,7 @@ module.exports = db => {
     try {
       let id = req.query.id;
       let result = await db.collection('Offers').removeOne({_id: Archetype.to(id, ObjectId)});
-      return result;
+      res.send(result);
     } catch (error) {
       throw new Error(error);
     }
