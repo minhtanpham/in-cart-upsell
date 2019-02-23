@@ -55,8 +55,6 @@ export default class WhenShow extends React.Component {
     }
 
     onSelectDropdown(value, item, index) {
-        let products = this.state.selected_product_id;
-        products.push(item.id)
         this.setState({ value: value }, () => {
             this.props.handleChangeProductConditionID(item.id, index)
         })

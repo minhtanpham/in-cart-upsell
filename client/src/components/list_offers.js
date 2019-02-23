@@ -4,6 +4,11 @@ import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
 import setting from '../const';
 
+const parseBoolean = (context) => {
+    if (typeof context === 'boolean') return context
+    return (context.toLowerCase() == "true");
+}
+
 export default class ListOffer extends React.Component {
 
     constructor(props) {
@@ -35,13 +40,12 @@ export default class ListOffer extends React.Component {
 
     handleUpdateStatusOffer(id, status) {
         let self = this
-        let parsedStatus = (status.toLowerCase() === "true");
         axios(`${setting.host}/api/update/status/offer`, {
             method: 'POST',
             params: {
                 shop: setting.shop,
                 id: id,
-                status: !parsedStatus
+                status: !parseBoolean(status)
             }
         })
         .then(function (response) {
@@ -101,7 +105,7 @@ export default class ListOffer extends React.Component {
                     </thead>
                     <tbody>
                         {
-                            this.state.offers && (
+                            (this.state.offers && this.state.offers.length > 0) && (
                                 this.state.offers.map((item, index) => {
                                     return (
                                         <tr key={index}>
@@ -109,7 +113,7 @@ export default class ListOffer extends React.Component {
                                             <td>{item.offer_title}</td>
                                             <td>0%</td>
                                             <td>
-                                                <Switch onChange={() => this.handleUpdateStatusOffer(item._id, item.status)} checked={(item.status.toLowerCase() === 'true')} />
+                                                <Switch onChange={() => this.handleUpdateStatusOffer(item._id, item.status)} checked={parseBoolean(item.status)} />
                                             </td>
                                             <td>
                                                 <i data-tip="Edit" className="fa fa-pencil btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Edit" onClick={() => this.handleRemoveOffer(item._id)}></i>
