@@ -3,10 +3,11 @@
 const Archetype = require('archetype-js');
 const UserType = require('../schemas/user');
 const OfferType = require('../schemas/offer');
+const FeedbackType = require('../schemas/feedback');
 const { ObjectId } = require('mongodb');
 const express = require('express');
 const axios = require('axios');
-const publicIp = require('public-ip');
+// const publicIp = require('public-ip');
 
 module.exports = db => {
   const router = express.Router();
@@ -176,14 +177,14 @@ module.exports = db => {
     }
   });
 
-  //- get list all ui
-  router.get('/list/ui', async function(req, res) {
+  // create new offers
+  router.post('/create/feedback', async function(req, res) {
     try {
-      let shop = req.query.shop;
-      var result = await db.collection('Ui').findOne({ shop: shop });
-      res.send(result);
+      const feedback = new FeedbackType(req.query);
+      await db.collection('Feedbacks').insertOne(feedback);
+      res.send(feedback); 
     } catch (error) {
-      res.send(error);
+      throw new Error(error);
     }
   });
 

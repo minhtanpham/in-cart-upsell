@@ -7,6 +7,7 @@ import WhenShow from './when_show_offer';
 import Switch from "react-switch";
 import axios from 'axios';
 import setting from '../const';
+import { Redirect } from 'react-router-dom';
 
 const parseBoolean = (context) => {
     if (context) {
@@ -46,7 +47,8 @@ export default class OfferPreviewScreen extends React.Component {
             auto_remove: false,
             condition: [
                 { wrapCondition: 'all', mainCondition: 'contain_at_least', number: 0, id: '' }
-            ]
+            ],
+            redirect: false
         }
         this.handleChangeOfferTitle = this.handleChangeOfferTitle.bind(this)
         this.handleChangeListProducts = this.handleChangeListProducts.bind(this)
@@ -281,7 +283,7 @@ export default class OfferPreviewScreen extends React.Component {
             }
         })
         .then(function (response) {
-            console.log(response);
+            self.setState({ redirect: true })
         })
         .catch(function (error) {
             console.log(error);
@@ -335,6 +337,12 @@ export default class OfferPreviewScreen extends React.Component {
     }
 
     render() {
+
+        const { redirect } = this.state;
+
+        if (redirect) {
+            return <Redirect to='/app'/>;
+        }
 
         return (
             <React.Fragment>
