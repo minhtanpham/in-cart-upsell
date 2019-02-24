@@ -31,6 +31,9 @@ export default class CreateOffer extends React.Component {
         .catch(function (error) {
             console.log(error);
         })
+        if (this.props.data.list_products && this.props.data.list_products.length > 0) {
+            this.setState({ select_products: this.props.data.list_products })
+        }
     }
 
     getProductDetail(product_id) {
@@ -87,15 +90,11 @@ export default class CreateOffer extends React.Component {
         }
     }
 
-    handleChangeEventHeadline() {
-
-    }
-
     render() {
         return (
             <div className="offer-create-container">
                 <h1 className="label">Offer Title</h1><span className="sub-label"> (optional) - not shown to your customers</span>
-                <input className="full-width mr-10-0 input-form" type="text" placeholder="Offer title" onChange={(e) => this.props.handleChangeOfferTitle(e.target.value)} value={this.state.offer_title}/>
+                <input className="full-width mr-10-0 input-form" type="text" placeholder="Offer title" defaultValue={this.props.data.offer_title} onChange={(e) => this.props.handleChangeOfferTitle(e.target.value)} value={this.state.offer_title}/>
                 <h1 className="label">Product(s) Offered</h1>
                 <ul className="list-product-in-offer">
                     { this.renderListSelectedProduct() }

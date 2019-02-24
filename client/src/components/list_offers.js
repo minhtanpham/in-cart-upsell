@@ -88,6 +88,10 @@ export default class ListOffer extends React.Component {
         })
     }
 
+    handleEditOffer(id) {
+        window.location = '/app/setting?id=' + id
+    }
+
     render() {
         return (
             <div className="container card pd-20 mrt-50">
@@ -109,16 +113,16 @@ export default class ListOffer extends React.Component {
                                 this.state.offers.map((item, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>{index}</td>
+                                            <td>{index + 1}</td>
                                             <td>{item.offer_title}</td>
                                             <td>0%</td>
                                             <td>
                                                 <Switch onChange={() => this.handleUpdateStatusOffer(item._id, item.status)} checked={parseBoolean(item.status)} />
                                             </td>
                                             <td>
-                                                <i data-tip="Edit" className="fa fa-pencil btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Edit" onClick={() => this.handleRemoveOffer(item._id)}></i>
+                                                <i data-tip="Edit" className="fa fa-pencil btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Edit" onClick={() => this.handleEditOffer(item._id)}></i>
                                                 <i data-tip="Duplicate" className="fa fa-files-o btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Duplicate" onClick={() => this.handleDuplicateOffer(item._id)}></i>
-                                                <i data-tip="remove" className="fa fa-trash btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Remove" onClick={() => this.handleRemoveOffer(item._id)}></i>
+                                                <i data-tip="Remove" className="fa fa-trash btn-action" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Remove" onClick={() => this.handleRemoveOffer(item._id)}></i>
                                             </td>
                                         </tr>
                                     )

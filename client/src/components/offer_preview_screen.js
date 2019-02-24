@@ -8,6 +8,15 @@ import Switch from "react-switch";
 import axios from 'axios';
 import setting from '../const';
 
+const parseBoolean = (context) => {
+    if (context) {
+        if (typeof context === 'boolean') return context
+        return (context.toLowerCase() === "true");
+    } else {
+        return false
+    }
+}
+
 export default class OfferPreviewScreen extends React.Component {
 
     constructor(props) {
@@ -21,8 +30,8 @@ export default class OfferPreviewScreen extends React.Component {
             headline_color: '#000',
             button_text: 'Add to cart',
             button_color: '#000',
-            width: 100,
-            height: 20,
+            width: 125,
+            height: 40,
             button_border: 1,
             border_color: '#03C3AD',
             border_size: 1,
@@ -66,6 +75,51 @@ export default class OfferPreviewScreen extends React.Component {
         this.handleAddRule=this.handleAddRule.bind(this)
         this.handleRemoveRule=this.handleRemoveRule.bind(this)
         this.changeStatus=this.changeStatus.bind(this)
+    }
+
+    componentDidMount() {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var id = url.searchParams.get("id");
+        let self = this
+        if (id) {
+            axios(`${setting.host}/api/get/offer`, {
+                method: 'GET',
+                params: {
+                    id: id
+                }
+            })
+            .then(function (response) {
+                const data = response.data;
+                self.setState({
+                    status: parseBoolean(data.status),
+                    offer_title: data.offer_title,
+                    list_products: JSON.parse(data.list_products),
+                    offer_headline: data.offer_headline,
+                    headline_color: data.headline_color,
+                    button_text: data.button_text,
+                    button_color: data.button_color,
+                    width: data.width,
+                    height: data.height,
+                    button_border: data.button_border,
+                    border_color: data.border_color,
+                    border_size: data.border_size,
+                    border_style: data.border_style,
+                    border_radius: data.border_radius,
+                    background_color: data.background_color,
+                    show_product_image: parseBoolean(data.show_product_image),
+                    hide_out_of_stock: parseBoolean(data.hide_out_of_stock),
+                    link_product: parseBoolean(data.link_product),
+                    show_x: parseBoolean(data.show_x),
+                    choose_quantity: parseBoolean(data.choose_quantity),
+                    auto_remove: parseBoolean(data.auto_remove),
+                    condition: JSON.parse(data.condition)
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+        }
     }
 
     changePage(page) {
@@ -273,6 +327,11 @@ export default class OfferPreviewScreen extends React.Component {
             default:
                 return <CreateOffer />
         }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state !== nextState) return true
+        return false;
     }
 
     render() {

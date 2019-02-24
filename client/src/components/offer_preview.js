@@ -32,8 +32,8 @@ export default class OfferPreview extends React.Component {
                             className="btn btn-primary"
                             style={{
                                 backgroundColor: `${this.props.data.button_color}`,
-                                width: `${this.props.data.width}`,
-                                height: `${this.props.data.height}`,
+                                width: `${this.props.data.width}px`,
+                                height: `${this.props.data.height}px`,
                                 borderRadius: `${this.props.data.border_radius}px`
                             }}
                         >{this.props.data.button_text}</button>

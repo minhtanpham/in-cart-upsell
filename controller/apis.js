@@ -3,7 +3,6 @@
 const Archetype = require('archetype-js');
 const UserType = require('../schemas/user');
 const OfferType = require('../schemas/offer');
-// const UIType = require('../schemas/ui');
 const { ObjectId } = require('mongodb');
 const express = require('express');
 const axios = require('axios');
@@ -81,7 +80,7 @@ module.exports = db => {
     }
   });
 
-  //- get list all products from store
+  //- get products from store
   router.get('/products', async function(req, res) {
     let shop = req.query.shop;
     let token = req.query.token;
@@ -104,10 +103,27 @@ module.exports = db => {
   router.get('/list/offers', async function(req, res) {
     try {
       let shop = req.query.shop;
-      var result = await db.collection('Offers').find({ shop: shop }).sort({ createdAt: -1 }).toArray();
+      console.log(req.query);
+      if (req.query.status == 'true') {
+        var status = req.query.status;
+        var result = await db.collection('Offers').find({ shop: shop, status: status }).sort({ createdAt: -1 }).toArray();
+      } else {
+        var result = await db.collection('Offers').find({ shop: shop }).sort({ createdAt: -1 }).toArray();
+      }
       res.send(result);
     } catch (error) {
       throw new Error(error);
+    }
+  });
+
+  // get detail of offer
+  router.get('/get/offer', async function(req, res) {
+    try {
+      let id = req.query.id;
+      var result = await db.collection('Offers').findOne({ _id: Archetype.to(id, ObjectId) });
+      res.send(result);
+    } catch (error) {
+      res.send(error);
     }
   });
 
