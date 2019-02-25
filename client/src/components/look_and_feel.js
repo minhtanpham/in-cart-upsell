@@ -47,8 +47,8 @@ export default class LookAndFeel extends React.Component {
                 </div>
                 <div className="full-width block">
                     <div className="full-width" style={{ display: 'inline-block' }}>
-                        <h1 className="label text-left" style={{ width: '500px', marginRight: '120px' }}>Button Text</h1>
-                        <h1 className="label text-left">Button Color</h1>
+                        <h1 className="label text-left" style={{ width: '100px', marginRight: '80px', display: 'inline-block' }}>Button Text</h1>
+                        <h1 style={{ display: 'inline-block' }} className="label text-left">Button Color</h1>
                     </div>
                     <input className="mr-10-0 input-form" type="text" placeholder="Add to cart" value={this.props.data.button_text} onChange={(e) => this.props.handleChangeButtonText(e.target.value)} />
                     <ColorPicker

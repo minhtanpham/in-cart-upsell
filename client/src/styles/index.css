@@ -285,6 +285,17 @@ table tbody tr td {
   border-bottom: 3px solid #EDC505;
   border-left: none;
   border-right: none;
+  position: relative;
+}
+
+.close-offer-btn {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
 }
 
 .offer-product-preview {

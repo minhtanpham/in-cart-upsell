@@ -18,12 +18,15 @@ export default class OfferPreview extends React.Component {
                 }}
             >
                 <div className="row">
-                    <div className="col-lg-3">
+                    {
+                        this.props.data.show_x &&  <span className="close-offer-btn">x</span>
+                    }
+                    <div className="col-lg-3 col-md-6 col-sm-12 text-center">
                         {
                             this.props.data.show_product_image && <img className="offer-product-preview" alt="shirt" src="https://uniqlo.scene7.com/is/image/UNIQLO/goods_10_406456?$pdp-medium$" />
                         }
                     </div>
-                    <div className="col-l-9 text-center">
+                    <div className="col-lg-9 col-md-6 col-sm-12 text-center">
                         <span
                             className="offer-name-preview"
                             style={{ color: `${this.props.data.headline_color}` }}
