@@ -43,10 +43,9 @@ export default class OfferPreviewScreen extends React.Component {
             hide_out_of_stock: false,
             link_product: true,
             show_x: true,
-            choose_quantity: true,
             auto_remove: false,
             condition: [
-                { wrapCondition: 'all', mainCondition: 'contain_at_least', number: 0, id: '' }
+                { wrapCondition: 'all', mainCondition: 'contain_at_least', number: 0, id: '', country: '' }
             ],
             redirect: false
         }
@@ -68,12 +67,12 @@ export default class OfferPreviewScreen extends React.Component {
         this.handleChangeHideOutOfStock=this.handleChangeHideOutOfStock.bind(this)
         this.handleChangeLinkToProduct=this.handleChangeLinkToProduct.bind(this)
         this.handleChangeShowX=this.handleChangeShowX.bind(this)
-        this.handleChangeChooseQuantity=this.handleChangeChooseQuantity.bind(this)
         this.handleChangeAutoRemove=this.handleChangeAutoRemove.bind(this)
         this.handleChangeWrapCondition=this.handleChangeWrapCondition.bind(this)
         this.handleChangeMainCondition=this.handleChangeMainCondition.bind(this)
         this.handleChangeConditionNumber=this.handleChangeConditionNumber.bind(this)
         this.handleChangeProductConditionID=this.handleChangeProductConditionID.bind(this)
+        this.handleChangeCountryCondition=this.handleChangeCountryCondition.bind(this)
         this.handleAddRule=this.handleAddRule.bind(this)
         this.handleRemoveRule=this.handleRemoveRule.bind(this)
         this.changeStatus=this.changeStatus.bind(this)
@@ -113,7 +112,6 @@ export default class OfferPreviewScreen extends React.Component {
                     hide_out_of_stock: parseBoolean(data.hide_out_of_stock),
                     link_product: parseBoolean(data.link_product),
                     show_x: parseBoolean(data.show_x),
-                    choose_quantity: parseBoolean(data.choose_quantity),
                     auto_remove: parseBoolean(data.auto_remove),
                     condition: JSON.parse(data.condition)
                 })
@@ -204,17 +202,15 @@ export default class OfferPreviewScreen extends React.Component {
         this.setState({ show_x: !this.state.show_x })
     }
 
-    handleChangeChooseQuantity() {
-        this.setState({ choose_quantity: !this.state.choose_quantity })
-    }
-
     handleChangeAutoRemove() {
         this.setState({ auto_remove: !this.state.auto_remove })
     }
 
-    handleChangeWrapCondition(condition, index) {
+    handleChangeWrapCondition(condition) {
         let conditionTemp = this.state.condition
-        conditionTemp[index].wrapCondition = condition
+        for (var i = 0; i < conditionTemp.length; i++) {
+            conditionTemp[i].wrapCondition = condition
+        }
         this.setState({ condition:  conditionTemp })
     }
 
@@ -236,6 +232,12 @@ export default class OfferPreviewScreen extends React.Component {
         this.setState({ condition:  conditionTemp })
     }
 
+    handleChangeCountryCondition(country, index) {
+        let conditionTemp = this.state.condition
+        conditionTemp[index].country = country
+        this.setState({ condition:  conditionTemp })
+    }
+
     handleAddRule() {
         let current_rule = this.state.condition
         let new_rule = { wrapCondition: 'all', mainCondition: 'contain_at_least', number: 0, id: '' }
@@ -252,38 +254,111 @@ export default class OfferPreviewScreen extends React.Component {
     }
 
     saveOffer() {
-        var self = this;
-        axios(`${setting.host}/api/create/offer`, {
-            method: 'POST',
+        axios(`${setting.host}/api/list/offers`, {
+            method: 'GET',
             params: {
-                shop: setting.shop,
-                status: self.state.status,
-                offer_title: self.state.offer_title,
-                list_products: JSON.stringify(self.state.list_products),
-                offer_headline: self.state.offer_headline,
-                headline_color: self.state.headline_color,
-                button_text: self.state.button_text,
-                button_color: self.state.button_color,
-                width: self.state.width,
-                height: self.state.height,
-                button_border: self.state.button_border,
-                border_color: self.state.border_color,
-                border_size: self.state.border_size,
-                border_style: self.state.border_style,
-                border_radius: self.state.border_radius,
-                background_color: self.state.background_color,
-                show_product_image: self.state.show_product_image,
-                hide_out_of_stock: self.state.hide_out_of_stock,
-                link_product: self.state.link_product,
-                show_x: self.state.show_x,
-                choose_quantity: self.state.choose_quantity,
-                auto_remove: self.state.auto_remove,
-                condition: JSON.stringify(self.state.condition),
-                createdAt: new Date()
+                shop: setting.shop
             }
         })
         .then(function (response) {
-            self.setState({ redirect: true })
+            var number_offer = response.data.length;
+            axios(`${setting.host}/api/plan`, {
+                method: 'GET',
+                params: {
+                    shop: setting.shop
+                }
+            })
+            .then(function (response) {
+                var plan_name = response.data.recurring_application_charge.name;
+                if (plan_name === 'free' && number_offer === 1) {
+                    alert('Limit the plan');
+                    return false;
+                }
+                if (plan_name === 'basic' && number_offer === 25) {
+                    alert('Limit the plan');
+                    return false;
+                }
+                var self = this;
+                // check the id from url
+                var url_string = window.location.href;
+                var url = new URL(url_string);
+                var id = url.searchParams.get("id");
+                if (id) {
+                    axios(`${setting.host}/api/update/offer`, {
+                        method: 'POST',
+                        params: {
+                            _id: id,
+                            shop: setting.shop,
+                            status: self.state.status,
+                            offer_title: self.state.offer_title,
+                            list_products: JSON.stringify(self.state.list_products),
+                            offer_headline: self.state.offer_headline,
+                            headline_color: self.state.headline_color,
+                            button_text: self.state.button_text,
+                            button_color: self.state.button_color,
+                            width: self.state.width,
+                            height: self.state.height,
+                            button_border: self.state.button_border,
+                            border_color: self.state.border_color,
+                            border_size: self.state.border_size,
+                            border_style: self.state.border_style,
+                            border_radius: self.state.border_radius,
+                            background_color: self.state.background_color,
+                            show_product_image: self.state.show_product_image,
+                            hide_out_of_stock: self.state.hide_out_of_stock,
+                            link_product: self.state.link_product,
+                            show_x: self.state.show_x,
+                            auto_remove: self.state.auto_remove,
+                            condition: JSON.stringify(self.state.condition),
+                            createdAt: new Date()
+                        }
+                    })
+                    .then(function (response) {
+                        self.setState({ redirect: true })
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                } else {
+                    axios(`${setting.host}/api/create/offer`, {
+                        method: 'POST',
+                        params: {
+                            shop: setting.shop,
+                            status: self.state.status,
+                            offer_title: self.state.offer_title,
+                            list_products: JSON.stringify(self.state.list_products),
+                            offer_headline: self.state.offer_headline,
+                            headline_color: self.state.headline_color,
+                            button_text: self.state.button_text,
+                            button_color: self.state.button_color,
+                            width: self.state.width,
+                            height: self.state.height,
+                            button_border: self.state.button_border,
+                            border_color: self.state.border_color,
+                            border_size: self.state.border_size,
+                            border_style: self.state.border_style,
+                            border_radius: self.state.border_radius,
+                            background_color: self.state.background_color,
+                            show_product_image: self.state.show_product_image,
+                            hide_out_of_stock: self.state.hide_out_of_stock,
+                            link_product: self.state.link_product,
+                            show_x: self.state.show_x,
+                            auto_remove: self.state.auto_remove,
+                            condition: JSON.stringify(self.state.condition),
+                            createdAt: new Date()
+                        }
+                    })
+                    .then(function (response) {
+                        self.setState({ redirect: true })
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
         })
         .catch(function (error) {
             console.log(error);
@@ -313,7 +388,6 @@ export default class OfferPreviewScreen extends React.Component {
                             handleChangeHideOutOfStock={this.handleChangeHideOutOfStock}
                             handleChangeLinkToProduct={this.handleChangeLinkToProduct}
                             handleChangeShowX={this.handleChangeShowX}
-                            handleChangeChooseQuantity={this.handleChangeChooseQuantity}
                             handleChangeAutoRemove={this.handleChangeAutoRemove}
                         />
             case 'when':
@@ -323,6 +397,7 @@ export default class OfferPreviewScreen extends React.Component {
                             handleChangeMainCondition={this.handleChangeMainCondition}
                             handleChangeConditionNumber={this.handleChangeConditionNumber}
                             handleChangeProductConditionID={this.handleChangeProductConditionID}
+                            handleChangeCountryCondition={this.handleChangeCountryCondition}
                             handleAddRule={this.handleAddRule}
                             handleRemoveRule={this.handleRemoveRule}
                         />

@@ -88,11 +88,6 @@ module.exports = new Archetype({
         $required: true,
         $default: true
     },
-    choose_quantity: {
-        $type: 'boolean',
-        $required: true,
-        $default: true
-    },
     auto_remove: {
         $type: 'boolean',
         $required: true,

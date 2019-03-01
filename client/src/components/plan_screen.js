@@ -1,6 +1,49 @@
 import React from 'react';
+import setting from '../const';
+import axios from 'axios';
 
 export default class SettingScreen extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            plan: 'free'
+        }
+    }
+    componentDidMount() {
+        var shop = setting.shop;
+        axios(`${setting.host}/api/plan`, {
+            method: 'GET',
+            params: {
+                shop: shop
+            }
+        })
+        .then(function (response) {
+            this.setState({ plan: response.data.recurring_application_charge.name })
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    choosePlan(plan) {
+        var shop = setting.shop;
+        var token = setting.access_token;
+        axios(`${setting.host}/api/charge/create`, {
+            method: 'GET',
+            params: {
+                shop: shop,
+                plan: plan,
+                token: token
+            }
+        })
+        .then(function (response) {
+            alert('OK');
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
     render() {
         return (
             <div className="container card pd-20 mrt-50">
@@ -15,7 +58,7 @@ export default class SettingScreen extends React.Component {
                                 <li>1 Offer Allowed</li>
                                 <li>AJAX Cart NOT Supported</li>
                             </ul>
-                            <button className="btn btn-primary">Get Started</button>
+                            <button disabled={this.state.plan === 'free'} className="btn btn-primary" onClick={() => this.choosePlan('free')}>Get Started</button>
                         </div>
                     </div>
                     <div className="col-lg-4">
@@ -29,7 +72,7 @@ export default class SettingScreen extends React.Component {
                                 <li>AJAX Cart Supported</li>
                                 <li>Geo Targeting Included</li>
                             </ul>
-                            <button className="btn btn-primary">Get Started</button>
+                            <button disabled={this.state.plan === 'basic'} className="btn btn-primary" onClick={() => this.choosePlan('basic')}>Get Started</button>
                         </div>
                     </div>
                     <div className="col-lg-4">
@@ -43,7 +86,7 @@ export default class SettingScreen extends React.Component {
                                 <li>AJAX Cart Supported</li>
                                 <li>Geo Targeting Included</li>
                             </ul>
-                            <button className="btn btn-primary">Get Started</button>
+                            <button disabled={this.state.plan === 'unlimited'} className="btn btn-primary" onClick={() => this.choosePlan('unlimited')}>Get Started</button>
                         </div>
                     </div>
                 </div>

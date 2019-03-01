@@ -79,7 +79,8 @@ module.exports = db => {
         myshopify_domain: shopData.data.shop.myshopify_domain,
         access_token: access_token,
         createdAt: new Date(),
-        accept: false
+        accept: false,
+        plan: 'free'
       };
       try {
         let response = await axios(`http://localhost:${PORT}/api/users`, {

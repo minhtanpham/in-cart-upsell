@@ -7,7 +7,6 @@ const FeedbackType = require('../schemas/feedback');
 const { ObjectId } = require('mongodb');
 const express = require('express');
 const axios = require('axios');
-// const publicIp = require('public-ip');
 
 module.exports = db => {
   const router = express.Router();
@@ -16,13 +15,15 @@ module.exports = db => {
     .then(result => res.json(result))
     .catch(error => res.status(500).json({ error: error.message }));
 
-  //- get IP address of current client
-  router.get('/ip', async function(req, res) {
+  //- get list all products from store
+  router.get('/location', async function(req, res) {
     try {
-      var response = await axios.get('http://icanhazip.com/');
+      var response = await axios('http://ip-api.com/json', {
+        method: 'GET'
+      });  
       res.send(response.data);
     } catch (error) {
-      res.send("127.0.0.1");
+      throw new Error(error);
     }
   });
 
@@ -34,6 +35,24 @@ module.exports = db => {
       return result;
     } catch (error) {
       return error
+    }
+  }));
+
+  //- get user from shop name
+  router.get('/plan', wrapAsync(async function(req) {
+    try {
+      var result = await db.collection('users').findOne({ myshopify_domain: shop })
+      var charge_id = result.charge_id;
+      var request_url = 'https://' + shop + `/admin/recurring_application_charges/${charge_id}.json`;
+      var response = await axios(request_url, {
+        method: 'GET',
+        headers: {
+          'X-Shopify-Access-Token': token
+        }
+      });  
+      res.send(response.data);
+    } catch (error) {
+      throw new Error(error);
     }
   }));
   
@@ -104,14 +123,19 @@ module.exports = db => {
   router.get('/list/offers', async function(req, res) {
     try {
       let shop = req.query.shop;
-      console.log(req.query);
-      if (req.query.status == 'true') {
+      if (req.query.status && req.query.status == 'true') {
         var status = req.query.status;
-        var result = await db.collection('Offers').find({ shop: shop, status: status }).sort({ createdAt: -1 }).toArray();
+        var result;
+        db.collection("Offers").find({ shop: shop, status: status }).toArray(function(err, result) {
+          if (err) throw err;
+          res.send(result);
+        });
       } else {
-        var result = await db.collection('Offers').find({ shop: shop }).sort({ createdAt: -1 }).toArray();
+        db.collection("Offers").find({ shop: shop }).toArray(function(err, result) {
+          if (err) throw err;
+          res.send(result);
+        });
       }
-      res.send(result);
     } catch (error) {
       throw new Error(error);
     }
@@ -139,13 +163,50 @@ module.exports = db => {
     }
   });
 
-  // create new offers
+  // update status for offer
   router.post('/update/status/offer', async function(req, res) {
     try {
       let shop = req.query.shop;
       let id = req.query.id;
       let status = req.query.status;
       let result = await db.collection('Offers').updateOne({_id: Archetype.to(id, ObjectId), shop: shop}, { $set: { status: status }});
+      res.send(result);
+    } catch (error) {
+      throw new Error(error);
+    }
+  });
+
+  // update offer
+  router.post('/update/offer', async function(req, res) {
+    try {
+      let shop = req.query.shop;
+      let id = req.query.id;
+      let query = req.query;
+      let result = await db.collection('Offers').updateOne({_id: Archetype.to(id, ObjectId), shop: shop}, { $set: {
+        shop: query.shop,
+        status: query.status,
+        offer_title: query.offer_title,
+        list_products: query.list_products,
+        offer_headline: query.offer_headline,
+        headline_color: query.headline_color,
+        button_text: query.button_text,
+        button_color: query.button_color,
+        width: query.width,
+        height: query.height,
+        button_border: query.button_border,
+        border_color: query.border_color,
+        border_size: query.border_size,
+        border_style: query.border_style,
+        border_radius: query.border_radius,
+        background_color: query.background_color,
+        show_product_image: query.show_product_image,
+        hide_out_of_stock: query.hide_out_of_stock,
+        link_product: query.link_product,
+        show_x: query.show_x,
+        auto_remove: query.auto_remove,
+        condition: query.condition,
+        createdAt: new Date()
+      }});
       res.send(result);
     } catch (error) {
       throw new Error(error);
@@ -231,6 +292,58 @@ module.exports = db => {
   //   })
   //   return { result }
   // }))
-
+  //- create new charge
+  router.get('/charge/create', async function(req, res) {
+    let shop = req.query.shop;
+    let plan = req.query.plan;
+    let token = req.query.token;
+    let price = 0;
+    if (plan == 'basic') {
+      price = 9.99;
+    } else {
+      price = 29.99;
+    }
+    let request_url = 'https://' + shop + '/admin/recurring_application_charges.json';
+    let body_request = JSON.stringify({
+      recurring_application_charge: {
+        name: plan,
+        price: price,
+        return_url: 'http://super-duper.shopifyapps.com',
+        test: true
+      }
+    })
+    try {
+      var user = await db.collection('users').findOne({ myshopify_domain: shop })
+    } catch (error) {
+      return error
+    }
+    if (!user.charge_id) {
+      try {
+        var response = await axios(request_url, {
+          method: 'POST',
+          headers: {
+            'X-Shopify-Access-Token': token,
+            "Content-Type": "application/json"
+          },
+          data: body_request
+        });
+        console.log(response);
+        if (response.status == 201) {
+          try {
+            var result = await db.collection('users').updateOne(
+              { "myshopify_domain" : shop },
+              { $set: { "charge_id" : response.data.recurring_application_charge.id } }
+            )
+            return result;
+          } catch (error) {
+            throw new Error(error);
+          }
+        }  
+        res.send(response.data);
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+  });
   return router
 }

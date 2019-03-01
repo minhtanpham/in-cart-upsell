@@ -2,6 +2,7 @@ import React from 'react';
 import Autocomplete from 'react-autocomplete';
 import axios from 'axios';
 import setting from '../const';
+import countries from '../country';
 
 export default class WhenShow extends React.Component {
 
@@ -9,7 +10,8 @@ export default class WhenShow extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            value: '',
+            product_value: '',
+            country: '',
             products: []
         }
         this.getProductDetail = this.getProductDetail.bind(this)
@@ -54,9 +56,15 @@ export default class WhenShow extends React.Component {
         })
     }
 
-    onSelectDropdown(value, item, index) {
-        this.setState({ value: value }, () => {
+    onSelectProductDropdown(value, item, index) {
+        this.setState({ product_value: value }, () => {
             this.props.handleChangeProductConditionID(item.id, index)
+        })
+    }
+
+    onSelectCountryDropdown(value, item, index) {
+        this.setState({ country: value }, () => {
+            this.props.handleChangeCountryCondition(item.code, index)
         })
     }
 
@@ -68,14 +76,18 @@ export default class WhenShow extends React.Component {
                         this.props.data.map((item, index) => {
                             return (
                                 <React.Fragment key={index}>
-                                    <div className="full-width block">
-                                        <span className="sub-label">Show the offer whenever</span>
-                                        <select value={item.wrapCondition} onChange={(e) => this.props.handleChangeWrapCondition(e.target.value, index)}>
-                                            <option value="all">All</option>
-                                            <option value="any">Any</option>
-                                        </select>
-                                        <span className="sub-label">of these rules are met :</span>
-                                    </div>
+                                    {
+                                        (index === 0) && (
+                                            <div className="full-width block">
+                                                <span className="sub-label">Show the offer whenever</span>
+                                                <select value={item.wrapCondition} onChange={(e) => this.props.handleChangeWrapCondition(e.target.value)}>
+                                                    <option value="all">All</option>
+                                                    <option value="any">Any</option>
+                                                </select>
+                                                <span className="sub-label">of these rules are met :</span>
+                                            </div>
+                                        )
+                                    }
                                     <div className="full-width block">
                                         <select className="no-mrl" value={item.mainCondition} onChange={(e) => this.props.handleChangeMainCondition(e.target.value, index)}>
                                             <option value="contain_at_least">Cart contains at least</option>
@@ -100,26 +112,34 @@ export default class WhenShow extends React.Component {
                                                     {item.title}
                                                 </div>
                                             }
-                                            value={this.state.value}
-                                            onChange={e => this.setState({ value: e.target.value })}
-                                            onSelect={(value, item) => this.onSelectDropdown(value, item, index) }
+                                            value={this.state.product_value}
+                                            onChange={e => this.setState({ product_value: e.target.value })}
+                                            onSelect={(value, item) => this.onSelectProductDropdown(value, item, index) }
                                         />
                                         <span className="remove-btn">
                                             <img src="https://res.cloudinary.com/tanpham/image/upload/v1549561904/remove-btn.png" alt="remove button" onClick={() => this.props.handleRemoveRule(index)}/>
                                         </span>
                                     </div>
-                                    {/* <div className="full-width block">
+                                    <div className="full-width block">
                                         <span className="label">AND</span>
-                                        <select>
-                                            <option>Ha Noi</option>
-                                        </select>
-                                        <select>
-                                            <option>Viet Nam</option>
-                                        </select>
-                                        <span className="remove-btn">
-                                            <img src="https://res.cloudinary.com/tanpham/image/upload/v1549561904/remove-btn.png" alt="remove button" />
-                                        </span>
-                                    </div> */}
+                                        <Autocomplete
+                                            items={countries}
+                                            inputProps={{ placeholder: 'Enter your country', className: 'full-width mr-10-0 input-form' }}
+                                            shouldItemRender={(item, value) =>  item.name.toLowerCase().indexOf(value.toLowerCase()) > -1 }
+                                            getItemValue={item => item.code}
+                                            renderItem={(item, highlighted) =>
+                                                <div
+                                                    key={item.code}
+                                                    style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
+                                                >
+                                                    {item.name}
+                                                </div>
+                                            }
+                                            value={this.state.country}
+                                            onChange={e => this.setState({ country: e.target.value })}
+                                            onSelect={(value, item) => this.onSelectCountryDropdown(value, item, index) }
+                                        />
+                                    </div>
                                 </React.Fragment>
                             )
                         })

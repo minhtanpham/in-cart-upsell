@@ -73,7 +73,7 @@ export default class LookAndFeel extends React.Component {
                     <div>
                         <h1 className="label full-width block text-left">Button Border</h1>
                         <div className="btn-group custom-btn-group" role="group" aria-label="button border">
-                            <button type="button" className="btn btn-secondary" onClick={() => this.props.handleChangeBorderRadius(5)}>
+                            <button type="button" className="btn btn-secondary" onClick={() => this.props.handleChangeBorderRadius(10)}>
                                 <img width="15px" src="https://res.cloudinary.com/tanpham/image/upload/v1550074483/Group_69.png" alt="round"/>
                             </button>
                             <button type="button" className="btn btn-secondary" onClick={() => this.props.handleChangeBorderRadius(0)}>
@@ -150,10 +150,6 @@ export default class LookAndFeel extends React.Component {
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" checked={this.props.data.show_x} id="check4" onChange={this.props.handleChangeShowX}/>
                         <label className="form-check-label" htmlFor="check4">Show an "x" in the corner of the offer so customers can dismiss it (not recommended)</label>
-                    </div>
-                    <div className="form-check">
-                        <input className="form-check-input" type="checkbox" checked={this.props.data.choose_quantity} id="check5" onChange={this.props.handleChangeChooseQuantity}/>
-                        <label className="form-check-label" htmlFor="check5">Let customers choose the quantity (otherwise the quantity will automatically be 1)</label>
                     </div>
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" checked={this.props.data.auto_remove} id="check6" onChange={this.props.handleChangeAutoRemove} />

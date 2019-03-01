@@ -34,5 +34,13 @@ module.exports = new Archetype({
   accept: {
     $type: 'boolean',
     $default: false
+  },
+  plan: {
+    $type: 'string',
+    $default: 'free'
+  },
+  charge_id: {
+    $type: 'string',
+    $default: false
   }
 }).compile('UserType');

@@ -299,8 +299,9 @@ table tbody tr td {
 }
 
 .offer-product-preview {
-  width: 85px;
-  height: 85px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
 
 .offer-name-preview {
@@ -509,4 +510,10 @@ table tbody tr td {
 
 .list-product .percent {
   margin-left: 50px;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #fff;
+  background-color: #ccc;
+  border-color: #ccc;
 }

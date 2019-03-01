@@ -47,7 +47,7 @@ export default class CreateOffer extends React.Component {
             }
         })
         .then(function (response) {
-            let selected = [...self.state.select_products, response.data.product]
+            let selected = [response.data.product];
             self.setState(prevState => ({
                 select_products: selected
             }))
@@ -60,7 +60,6 @@ export default class CreateOffer extends React.Component {
 
     onSelectDropdown(value, item) {
         let products = this.state.selected_product_id;
-        products.push(item.id)
         this.setState({ value: value, selected_product_id: products  },() => {
             this.getProductDetail(item.id)
         })
