@@ -8,6 +8,10 @@ import Switch from "react-switch";
 import axios from 'axios';
 import setting from '../const';
 import { Redirect } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
+const shop = Cookies.get('shopify_domain');
+const access_token = Cookies.get('access_token');
 
 const parseBoolean = (context) => {
     if (context) {
@@ -257,7 +261,7 @@ export default class OfferPreviewScreen extends React.Component {
         axios(`${setting.host}/api/list/offers`, {
             method: 'GET',
             params: {
-                shop: setting.shop
+                shop: shop
             }
         })
         .then(function (response) {
@@ -265,7 +269,7 @@ export default class OfferPreviewScreen extends React.Component {
             axios(`${setting.host}/api/plan`, {
                 method: 'GET',
                 params: {
-                    shop: setting.shop
+                    shop: shop
                 }
             })
             .then(function (response) {
@@ -288,7 +292,7 @@ export default class OfferPreviewScreen extends React.Component {
                         method: 'POST',
                         params: {
                             _id: id,
-                            shop: setting.shop,
+                            shop: shop,
                             status: self.state.status,
                             offer_title: self.state.offer_title,
                             list_products: JSON.stringify(self.state.list_products),
@@ -323,7 +327,7 @@ export default class OfferPreviewScreen extends React.Component {
                     axios(`${setting.host}/api/create/offer`, {
                         method: 'POST',
                         params: {
-                            shop: setting.shop,
+                            shop: shop,
                             status: self.state.status,
                             offer_title: self.state.offer_title,
                             list_products: JSON.stringify(self.state.list_products),

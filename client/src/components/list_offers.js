@@ -3,6 +3,10 @@ import Switch from "react-switch";
 import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
 import setting from '../const';
+import Cookies from 'js-cookie';
+
+const shop = Cookies.get('shopify_domain');
+const access_token = Cookies.get('access_token');
 
 const parseBoolean = (context) => {
     if (typeof context === 'boolean') return context
@@ -23,7 +27,7 @@ export default class ListOffer extends React.Component {
         axios(`${setting.host}/api/list/offers`, {
             method: 'GET',
             params: {
-                shop: setting.shop
+                shop: shop
             }
         })
         .then(function (response) {
@@ -43,7 +47,7 @@ export default class ListOffer extends React.Component {
         axios(`${setting.host}/api/update/status/offer`, {
             method: 'POST',
             params: {
-                shop: setting.shop,
+                shop: shop,
                 id: id,
                 status: !parseBoolean(status)
             }

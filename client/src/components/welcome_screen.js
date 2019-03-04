@@ -4,6 +4,9 @@ import axios from 'axios';
 
 import TermAndConditions from './term_and_conditions';
 import WelcomePopup from '../components/welcome_popup';
+import Cookies from 'js-cookie';
+
+const shop = Cookies.get('shopify_domain');
 
 export default class WelcomeScreen extends React.Component {
 
@@ -11,7 +14,7 @@ export default class WelcomeScreen extends React.Component {
         axios(`${setting.host}/api/user`, {
             method: 'GET',
             params: {
-                shop: setting.shop
+                shop: shop
             }
         })
         .then(function (response) {

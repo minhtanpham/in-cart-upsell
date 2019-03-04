@@ -2,6 +2,10 @@ import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import setting from '../const';
+import Cookies from 'js-cookie';
+
+const shop = Cookies.get('shopify_domain');
+const access_token = Cookies.get('access_token');
 
 export default class FeedbackScreen extends React.Component {
 
@@ -29,7 +33,7 @@ export default class FeedbackScreen extends React.Component {
                 phone: phone,
                 email: email,
                 feedback: feedback,
-                shop: setting.shop
+                shop: shop
             }
         })
         .then(function (response) {

@@ -2,6 +2,10 @@ import React from 'react';
 import Autocomplete from 'react-autocomplete';
 import axios from 'axios';
 import setting from './../const';
+import Cookies from 'js-cookie';
+
+const shop = Cookies.get('shopify_domain');
+const access_token = Cookies.get('access_token');
 
 export default class CreateOffer extends React.Component {
 
@@ -21,8 +25,8 @@ export default class CreateOffer extends React.Component {
         axios(`${setting.host}/api/list/products`, {
             method: 'GET',
             params: {
-                shop: setting.shop,
-                token: setting.access_token
+                shop: shop,
+                token: access_token
             }
         })
         .then(function (response) {
@@ -41,8 +45,8 @@ export default class CreateOffer extends React.Component {
         axios(`${setting.host}/api/products`, {
             method: 'GET',
             params: {
-                shop: setting.shop,
-                token: setting.access_token,
+                shop: shop,
+                token: access_token,
                 product_id
             }
         })

@@ -1,6 +1,10 @@
 import React from 'react';
 import setting from '../const';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+
+const shop = Cookies.get('shopify_domain');
+const access_token = Cookies.get('access_token');
 
 export default class SettingScreen extends React.Component {
     constructor(props) {
@@ -10,7 +14,7 @@ export default class SettingScreen extends React.Component {
         }
     }
     componentDidMount() {
-        var shop = setting.shop;
+        var shop = shop;
         axios(`${setting.host}/api/plan`, {
             method: 'GET',
             params: {
@@ -26,8 +30,8 @@ export default class SettingScreen extends React.Component {
     }
 
     choosePlan(plan) {
-        var shop = setting.shop;
-        var token = setting.access_token;
+        var shop = shop;
+        var token = access_token;
         axios(`${setting.host}/api/charge/create`, {
             method: 'GET',
             params: {

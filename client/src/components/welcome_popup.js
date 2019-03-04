@@ -2,6 +2,10 @@ import React from 'react';
 import Slider from "react-slick";
 import axios from 'axios';
 import setting from '../const';
+import Cookies from 'js-cookie';
+
+const shop = Cookies.get('shopify_domain');
+const access_token = Cookies.get('access_token');
 
 const settings = {
     dots: true,
@@ -18,7 +22,7 @@ export default class WelcomePopup extends React.Component {
         axios(`${setting.host}/api/accept`, {
             method: 'POST',
             params: {
-                shop: setting.shop
+                shop: shop
             }
         })
         .then(function (response) {
