@@ -2,6 +2,7 @@ import React from 'react';
 import Slider from "react-slick";
 import axios from 'axios';
 import setting from '../const';
+import { Redirect } from 'react-router'
 
 const settings = {
     dots: true,
@@ -12,7 +13,9 @@ const settings = {
 };
 export default class WelcomePopup extends React.Component {
 
-    state = {}
+    state = {
+        redirect: false
+    }
 
     accept_term() {
         axios(`${setting.host}/api/accept`, {
@@ -30,6 +33,10 @@ export default class WelcomePopup extends React.Component {
     }
 
     render() {
+        const { redirect } = this.state
+        if (redirect) {
+            return <Redirect to='/app'/>;
+          }
         return (
             <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog" role="document">
@@ -49,7 +56,7 @@ export default class WelcomePopup extends React.Component {
                         </Slider>
                     </div>
                     <div className="slider-footer">
-                        <button type="button" className="btn btn-dark" data-dismiss="modal">Skip for now</button>
+                        <button type="button" className="btn btn-dark" data-dismiss="modal" onClick={() => this.setState({ redirect: true })}>Skip for now</button>
                         <button type="button" className="btn btn-primary float-right" onClick={() => this.accept_term()}>Ready to roll</button>
                     </div>
                 </div>
