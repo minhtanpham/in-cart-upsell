@@ -9,20 +9,20 @@ export function readCookie(name) {
     return null;
 }
 
-// const env = 'dev'
-const env = 'prod'
+const env = 'dev'
+// const env = 'prod'
 var settings = null;
 if (env == 'dev') {
     settings = {
         shop: 'upsell-application-store.myshopify.com',
         access_token: '1ff23057588e98a6f06bf678eca98c25',
-        host: 'http://locahost:5000'
+        host: 'http://localhost:5000'
     }
 } else {
     settings = {
         shop: readCookie('shopify_domain'),
         access_token: readCookie('access_token'),
-        host: 'http://6dcb0fa4.ngrok.io'
+        host: 'https://280528d1.ngrok.io'
     }
 }
 

@@ -5,7 +5,19 @@ import axios from 'axios';
 import TermAndConditions from './term_and_conditions';
 import WelcomePopup from '../components/welcome_popup';
 
+const inIframe = function () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+
 export default class WelcomeScreen extends React.Component {
+
+    state = {
+        iframe: true
+    }
 
     componentWillMount() {
         axios(`${setting.host}/api/user`, {
@@ -20,16 +32,27 @@ export default class WelcomeScreen extends React.Component {
         .catch(function (error) {
             console.log(error);
         })
+        if (!inIframe()) this.setState({ iframe: true })
     }
 
+
+
     render() {
+        const { iframe } = this.state
         return (
             <div className="container">
                 <div className="row">
                     <div className="card mrt-50 mrb-50 pd-20 col-lg-12 text-center">
                         <h2 className="term-title">Terms and Conditions</h2>
                         <TermAndConditions />
-                        <button className="btn btn-primary btn-large center" data-toggle="modal" data-target="#exampleModal">Accept and Continue</button>
+                        {
+                            iframe
+                            ?
+                                <button className="btn btn-primary btn-large center">Please continue in store</button>
+                            :
+                                <button className="btn btn-primary btn-large center" data-toggle="modal" data-target="#exampleModal">Accept and Continue</button>
+                        }
+                        
                     </div>
                 </div>
                 <WelcomePopup />

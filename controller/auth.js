@@ -71,30 +71,11 @@ module.exports = db => {
       const shopData = await fetchShopData(shop, access_token);
       res.cookie('shopify_domain', shopData.data.shop.myshopify_domain);
       res.cookie('access_token', access_token);
-      const formData = {
-        name: shopData.data.shop.name,
-        email: shopData.data.shop.email,
-        address1: shopData.data.shop.address1,
-        country: shopData.data.shop.country,
-        myshopify_domain: shopData.data.shop.myshopify_domain,
-        access_token: access_token,
-        createdAt: new Date(),
-        accept: false,
-        plan: 'free'
-      };
-      try {
-        let response = await axios(`http://localhost:${PORT}/api/users`, {
-          method: 'POST',
-          data: formData
-        });
-        if (response.status == 200) {
-          res.redirect('/?hmac='+hmac+'&shop='+shopData.data.shop.name);
-        } else {
-          res.redirect('/greeting');
-        }
-      } catch (error) {
-        
-      }
+      res.cookie('email', shopData.data.shop.email);
+      res.cookie('address1', shopData.data.shop.address1);
+      res.cookie('country', shopData.data.shop.country);
+      res.cookie('name', shopData.data.shop.name);
+      res.redirect('/?hmac=' + hmac + '&shop=' + shopData.data.shop.name);
     } catch(err) {
       console.log(err)
       res.status(500).send('something went wrong')

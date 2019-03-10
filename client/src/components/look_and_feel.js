@@ -106,7 +106,7 @@ export default class LookAndFeel extends React.Component {
                                 <button className="btn dropdown-toggle" type="button" data-toggle="dropdown" style={{ width: '100px' }}>
                                     <img width="50px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558710/border-solid.png" alt="solid border"/>
                                     <span className="caret"></span></button>
-                                <ul className="dropdown-menu">
+                                <ul className="dropdown-menu dropdown-border-style">
                                     <li className="text-center" onClick={() => this.props.handleChangeBorderStyle('solid')}>
                                         <img width="50px" src="https://res.cloudinary.com/tanpham/image/upload/v1549558710/border-solid.png" alt="solid border"/>
                                     </li>

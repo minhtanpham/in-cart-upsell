@@ -23,23 +23,25 @@ module.exports = db => {
       });  
       res.send(response.data);
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
   });
 
   //- get user from shop name
-  router.get('/user', wrapAsync(async function(req) {
+  router.get('/user', async function(req, res) {
     const shop = req.query.shop;
+    console.log(shop);
     try {
       var result = await db.collection('users').findOne({ myshopify_domain: shop })
-      return result;
+      res.send(result);
     } catch (error) {
-      return error
+      console.log(error);
+      res.status(500).send(error)
     }
-  }));
+  });
 
   //- get user from shop name
-  router.get('/plan', wrapAsync(async function(req) {
+  router.get('/plan', async function(req, res) {
     try {
       var result = await db.collection('users').findOne({ myshopify_domain: shop })
       var charge_id = result.charge_id;
@@ -52,12 +54,12 @@ module.exports = db => {
       });  
       res.send(response.data);
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
-  }));
+  });
   
   //- create new user
-  router.post('/users', wrapAsync(async function(req) {
+  router.post('/users', async function(req, res) {
     const user = new UserType(req.body);
     var existedUser = await db.collection('users').findOne({ myshopify_domain: user.myshopify_domain });
     if (existedUser) {
@@ -66,10 +68,10 @@ module.exports = db => {
       await db.collection('users').insertOne(user)
       return { user }
     }
-  }));
+  });
 
   //- create new user
-  router.post('/accept', wrapAsync(async function(req) {
+  router.post('/accept', async function(req, res) {
     const shop = req.query.shop;
     try {
       var result = await db.collection('users').updateOne(
@@ -78,9 +80,9 @@ module.exports = db => {
       )
       return result;
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
-  }));
+  });
 
   //- get list all products from store
   router.get('/list/products', async function(req, res) {
@@ -96,7 +98,7 @@ module.exports = db => {
       });  
       res.send(response.data);
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
   });
 
@@ -115,7 +117,7 @@ module.exports = db => {
       });  
       res.send(response.data);
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
   });
 
@@ -137,7 +139,7 @@ module.exports = db => {
         });
       }
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
   });
 
@@ -148,7 +150,7 @@ module.exports = db => {
       var result = await db.collection('Offers').findOne({ _id: Archetype.to(id, ObjectId) });
       res.send(result);
     } catch (error) {
-      res.send(error);
+      res.status(500).send(error)
     }
   });
 
@@ -159,7 +161,7 @@ module.exports = db => {
       await db.collection('Offers').insertOne(offer);
       res.send(offer); 
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
   });
 
@@ -172,7 +174,7 @@ module.exports = db => {
       let result = await db.collection('Offers').updateOne({_id: Archetype.to(id, ObjectId), shop: shop}, { $set: { status: status }});
       res.send(result);
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
   });
 
@@ -209,7 +211,7 @@ module.exports = db => {
       }});
       res.send(result);
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
   });
 
@@ -223,7 +225,7 @@ module.exports = db => {
       let result = await db.collection('Offers').insertOne(new_offer);
       res.send(result);
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
   });
 
@@ -234,7 +236,7 @@ module.exports = db => {
       let result = await db.collection('Offers').removeOne({_id: Archetype.to(id, ObjectId)});
       res.send(result);
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
   });
 
@@ -245,7 +247,7 @@ module.exports = db => {
       await db.collection('Feedbacks').insertOne(feedback);
       res.send(feedback); 
     } catch (error) {
-      throw new Error(error);
+      res.status(500).send(error)
     }
   });
 
@@ -336,12 +338,12 @@ module.exports = db => {
             )
             return result;
           } catch (error) {
-            throw new Error(error);
+            res.status(500).send(error)
           }
         }  
         res.send(response.data);
       } catch (error) {
-        throw new Error(error);
+        res.status(500).send(error)
       }
     }
   });

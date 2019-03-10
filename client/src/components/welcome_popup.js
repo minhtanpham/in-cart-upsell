@@ -1,7 +1,7 @@
 import React from 'react';
 import Slider from "react-slick";
 import axios from 'axios';
-import setting from '../const';
+import setting, { readCookie } from './../const';
 import { Redirect } from 'react-router'
 
 const settings = {
@@ -18,14 +18,33 @@ export default class WelcomePopup extends React.Component {
     }
 
     accept_term() {
-        axios(`${setting.host}/api/accept`, {
+        var name = readCookie('shop.name');
+        var email = readCookie(email);
+        var address1 = readCookie(address1);
+        var country = readCookie(country);
+        var myshopify_domain = readCookie(myshopify_domain);
+        var access_token = readCookie(access_token);
+        var createdAt = new Date();
+        var accept = false;
+        var plan = 'free';
+        axios(`${setting.host}/api/users`, {
             method: 'POST',
             params: {
-                shop: setting.shop
+                name: name,
+                email: email,
+                address1: address1,
+                country: country,
+                myshopify_domain: myshopify_domain,
+                access_token: access_token,
+                createdAt: createdAt,
+                accept: accept,
+                plan: plan
             }
         })
         .then(function (response) {
-            console.log(response);
+            if (response.status == 200) {
+                this.setState({ redirect: true })
+            }
         })
         .catch(function (error) {
             console.log(error);

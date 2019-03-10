@@ -97,7 +97,8 @@ export default class OtherStaffScreen extends React.Component {
                                                 zIndex: '1',
                                                 height: 2,
                                                 width: '10%',
-                                                position: 'absolute'
+                                                position: 'absolute',
+                                                marginTop: '25px'
                                             }}
                                         />
                                         <hr
@@ -106,7 +107,8 @@ export default class OtherStaffScreen extends React.Component {
                                                 backgroundColor: '#ccc',
                                                 height: 2,
                                                 width: '90%',
-                                                position: 'absolute'
+                                                position: 'absolute',
+                                                marginTop: '25px'
                                             }}
                                         />
                                     </ul>
@@ -136,7 +138,8 @@ export default class OtherStaffScreen extends React.Component {
                                                 zIndex: '1',
                                                 height: 2,
                                                 width: '10%',
-                                                position: 'absolute'
+                                                position: 'absolute',
+                                                marginTop: '25px'
                                             }}
                                         />
                                         <hr
@@ -145,7 +148,8 @@ export default class OtherStaffScreen extends React.Component {
                                                 backgroundColor: '#ccc',
                                                 height: 2,
                                                 width: '90%',
-                                                position: 'absolute'
+                                                position: 'absolute',
+                                                marginTop: '25px'
                                             }}
                                         />
                                     </ul>
@@ -177,7 +181,8 @@ export default class OtherStaffScreen extends React.Component {
                                                 zIndex: '1',
                                                 height: 2,
                                                 width: '10%',
-                                                position: 'absolute'
+                                                position: 'absolute',
+                                                marginTop: '25px'
                                             }}
                                         />
                                         <hr
@@ -186,7 +191,8 @@ export default class OtherStaffScreen extends React.Component {
                                                 backgroundColor: '#ccc',
                                                 height: 2,
                                                 width: '90%',
-                                                position: 'absolute'
+                                                position: 'absolute',
+                                                marginTop: '25px'
                                             }}
                                         />
                                     </ul>
@@ -216,7 +222,8 @@ export default class OtherStaffScreen extends React.Component {
                                                 zIndex: '1',
                                                 height: 2,
                                                 width: '10%',
-                                                position: 'absolute'
+                                                position: 'absolute',
+                                                marginTop: '25px'
                                             }}
                                         />
                                         <hr
@@ -225,7 +232,8 @@ export default class OtherStaffScreen extends React.Component {
                                                 backgroundColor: '#ccc',
                                                 height: 2,
                                                 width: '90%',
-                                                position: 'absolute'
+                                                position: 'absolute',
+                                                marginTop: '25px'
                                             }}
                                         />
                                     </ul>

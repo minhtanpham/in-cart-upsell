@@ -74,6 +74,7 @@ export default class WhenShow extends React.Component {
                 {
                     this.props.data &&
                         this.props.data.map((item, index) => {
+                            var invalidCondition = ['total_value_at_least', 'total_value_at_most']
                             return (
                                 <React.Fragment key={index}>
                                     {
@@ -94,28 +95,36 @@ export default class WhenShow extends React.Component {
                                             <option value="contain_exactly">Cart contains exactly </option>
                                             <option value="contain_at_most">Cart contains at most</option>
                                             <option value="does_not_contain_any">Cart does not contain any</option>
-                                            <option value="total_value_at_least">Order total value is at leaste</option>
+                                            <option value="total_value_at_least">Order total value is at least</option>
                                             <option value="total_value_at_most">Order toal value is at most</option>
                                         </select>
-                                        <input type="number" style={{ width: '50px' }} className="mr-10 input-form" value={item.number} onChange={(e) => this.props.handleChangeConditionNumber(e.target.value, index)}/>
-                                        <input type="text" className="mr-10 input-form" placeholder="Of product:" disabled/>
-                                        <Autocomplete
-                                            items={this.state.products}
-                                            inputProps={{ placeholder: 'Enter product name here', className: 'full-width mr-10-0 input-form' }}
-                                            shouldItemRender={(item, value) =>  item.title.toLowerCase().indexOf(value.toLowerCase()) > -1 }
-                                            getItemValue={item => item.title}
-                                            renderItem={(item, highlighted) =>
-                                                <div
-                                                    key={item.id}
-                                                    style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
-                                                >
-                                                    {item.title}
-                                                </div>
-                                            }
-                                            value={this.state.product_value}
-                                            onChange={e => this.setState({ product_value: e.target.value })}
-                                            onSelect={(value, item) => this.onSelectProductDropdown(value, item, index) }
-                                        />
+                                        {
+                                            item.mainCondition !== 'does_not_contain_any' && <input type="number" style={{ width: '50px' }} className="mr-10 input-form" value={item.number} onChange={(e) => this.props.handleChangeConditionNumber(e.target.value, index)}/>
+                                        }
+                                        {
+                                            (invalidCondition.indexOf(item.mainCondition) == -1) && (
+                                                <React.Fragment>
+                                                    <input type="text" className="mr-10 input-form" placeholder="Of product:" disabled/>
+                                                    <Autocomplete
+                                                        items={this.state.products}
+                                                        inputProps={{ placeholder: 'Enter product name here', className: 'full-width mr-10-0 input-form' }}
+                                                        shouldItemRender={(item, value) =>  item.title.toLowerCase().indexOf(value.toLowerCase()) > -1 }
+                                                        getItemValue={item => item.title}
+                                                        renderItem={(item, highlighted) =>
+                                                            <div
+                                                                key={item.id}
+                                                                style={{ backgroundColor: highlighted ? '#eee' : 'transparent'}}
+                                                            >
+                                                                {item.title}
+                                                            </div>
+                                                        }
+                                                        value={this.state.product_value}
+                                                        onChange={e => this.setState({ product_value: e.target.value })}
+                                                        onSelect={(value, item) => this.onSelectProductDropdown(value, item, index) }
+                                                    />
+                                                </React.Fragment>
+                                            )
+                                        }
                                         <span className="remove-btn">
                                             <img src="https://res.cloudinary.com/tanpham/image/upload/v1549561904/remove-btn.png" alt="remove button" onClick={() => this.props.handleRemoveRule(index)}/>
                                         </span>

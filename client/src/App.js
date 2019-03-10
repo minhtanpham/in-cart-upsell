@@ -5,7 +5,9 @@ import AppProvider from './components/context';
 import WelcomeScreen from './components/welcome_screen';
 import AppScreen from './components/app_screen';
 
+
 class App extends Component {
+
   render() {
     return (
       <AppProvider>
