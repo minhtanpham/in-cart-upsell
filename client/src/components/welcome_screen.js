@@ -15,8 +15,11 @@ const inIframe = function () {
 
 export default class WelcomeScreen extends React.Component {
 
-    state = {
-        iframe: true
+    constructor(props) {
+        super(props)
+        this.state = {
+            iframe: false
+        }
     }
 
     componentWillMount() {
@@ -32,7 +35,7 @@ export default class WelcomeScreen extends React.Component {
         .catch(function (error) {
             console.log(error);
         })
-        if (!inIframe()) this.setState({ iframe: true })
+        if (inIframe()) this.setState({ iframe: true })
     }
 
 
@@ -46,7 +49,7 @@ export default class WelcomeScreen extends React.Component {
                         <h2 className="term-title">Terms and Conditions</h2>
                         <TermAndConditions />
                         {
-                            iframe
+                            !iframe
                             ?
                                 <button className="btn btn-primary btn-large center">Please continue in store</button>
                             :

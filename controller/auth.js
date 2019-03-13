@@ -67,15 +67,23 @@ module.exports = db => {
       const tokenResponse = await fetchAccessToken(shop, data)
 
       const { access_token } = tokenResponse.data
-
-      const shopData = await fetchShopData(shop, access_token);
-      res.cookie('shopify_domain', shopData.data.shop.myshopify_domain);
-      res.cookie('access_token', access_token);
-      res.cookie('email', shopData.data.shop.email);
-      res.cookie('address1', shopData.data.shop.address1);
-      res.cookie('country', shopData.data.shop.country);
-      res.cookie('name', shopData.data.shop.name);
-      res.redirect('/?hmac=' + hmac + '&shop=' + shopData.data.shop.name);
+      axios(buildShopDataRequestUrl(shop), {
+        method: 'GET',
+        headers: {
+          'X-Shopify-Access-Token': access_token
+        }
+      }).then(function (response) {
+        res.cookie('shopify_domain', response.data.shop.myshopify_domain);
+        res.cookie('access_token', access_token);
+        res.cookie('email', response.data.shop.email);
+        res.cookie('address1', response.data.shop.address1);
+        res.cookie('country', response.data.shop.country);
+        res.cookie('name', response.data.shop.name);
+        res.redirect('/?hmac=' + hmac + '&shop=' + response.data.shop.name);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     } catch(err) {
       console.log(err)
       res.status(500).send('something went wrong')

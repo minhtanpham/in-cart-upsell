@@ -11,22 +11,6 @@ const axios = require('axios');
 module.exports = db => {
   const router = express.Router();
 
-  const wrapAsync = handler => (req, res) => handler(req)
-    .then(result => res.json(result))
-    .catch(error => res.status(500).json({ error: error.message }));
-
-  //- get list all products from store
-  router.get('/location', async function(req, res) {
-    try {
-      var response = await axios('http://ip-api.com/json', {
-        method: 'GET'
-      });  
-      res.send(response.data);
-    } catch (error) {
-      res.status(500).send(error)
-    }
-  });
-
   //- get user from shop name
   router.get('/user', async function(req, res) {
     const shop = req.query.shop;
@@ -40,11 +24,15 @@ module.exports = db => {
     }
   });
 
-  //- get user from shop name
+  //- get plan from shop name
   router.get('/plan', async function(req, res) {
+    const shop = req.query.shop;
+    const token = req.query.token
+    console.log(shop)
     try {
       var result = await db.collection('users').findOne({ myshopify_domain: shop })
       var charge_id = result.charge_id;
+      console.log(charge_id)
       var request_url = 'https://' + shop + `/admin/recurring_application_charges/${charge_id}.json`;
       var response = await axios(request_url, {
         method: 'GET',
@@ -54,19 +42,30 @@ module.exports = db => {
       });  
       res.send(response.data);
     } catch (error) {
+      console.log(error)
       res.status(500).send(error)
     }
   });
   
   //- create new user
   router.post('/users', async function(req, res) {
-    const user = new UserType(req.body);
-    var existedUser = await db.collection('users').findOne({ myshopify_domain: user.myshopify_domain });
-    if (existedUser) {
-      return "A store for store has been existed";
-    } else {
-      await db.collection('users').insertOne(user)
-      return { user }
+    const user = new UserType(req.body.params);
+    try {
+      var existedUser = await db.collection('users').findOne({ myshopify_domain: user.myshopify_domain });
+      if (existedUser) {
+        res.status(200).send("A store for store has been existed");
+      } else {
+        // await db.collection('users').insertOne(user)
+        db.collection('users').insertOne(user, function(err, result) {
+          if (!err) {
+            console.log(result)
+            res.status(200).send(result)
+          }
+        })
+      }
+    } catch (error) {
+      console.log(error)
+      res.status(500).send(error)
     }
   });
 
@@ -90,13 +89,17 @@ module.exports = db => {
     let token = req.query.token;
     let request_url = 'https://' + shop + '/admin/products.json';
     try {
-      var response = await axios(request_url, {
+      axios(request_url, {
         method: 'GET',
         headers: {
           'X-Shopify-Access-Token': token
         }
-      });  
-      res.send(response.data);
+      }).then(function (response) {
+        res.status(200).send(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     } catch (error) {
       res.status(500).send(error)
     }
@@ -139,6 +142,7 @@ module.exports = db => {
         });
       }
     } catch (error) {
+      console.log(error)
       res.status(500).send(error)
     }
   });
@@ -251,49 +255,6 @@ module.exports = db => {
     }
   });
 
-  //- get list all offers
-  // router.post('/update/ui', async function(req, res) {
-  //   try {
-  //     let shop = req.body.shop;
-  //     var result = await db.collection('Ui').findOne({ shop: shop });
-  //     const ui = new UIType(req.body);
-  //     if (result !== null) { //- shop not have any UI
-  //       db.collection('Ui').updateOne(
-  //         { "shop" : shop },
-  //         { $set: {
-  //           "background_color": req.body.background_color,
-  //           "button_color": req.body.button_color,
-  //           "createdAt": req.body.createdAt,
-  //           "shop": req.body.shop,
-  //           "text_color": req.body.text_color,
-  //           "text_size": req.body.text_size
-  //         }}
-  //       )
-  //     } else {
-  //       db.collection('Ui').insertOne(ui);
-  //     }
-  //     res.send(ui);
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   }
-  // });
-
-  // router.get('/', wrapAsync(async function(req) {
-  //   return db.collection('Book').find().sort({ createdAt: -1 }).toArray()
-  // }))
-
-  // router.post('/', wrapAsync(async function(req) {
-  //   const book = new BookType(req.body)
-  //   await db.collection('Book').insertOne(book)
-  //   return { book }
-  // }))
-
-  // router.delete('/:id', wrapAsync(async function(req) {
-  //   const { result } = await db.collection('Book').deleteOne({
-  //     _id: Archetype.to(req.params.id, ObjectId)
-  //   })
-  //   return { result }
-  // }))
   //- create new charge
   router.get('/charge/create', async function(req, res) {
     let shop = req.query.shop;
@@ -302,7 +263,7 @@ module.exports = db => {
     let price = 0;
     if (plan == 'basic') {
       price = 9.99;
-    } else {
+    } else if (plan == 'unlimited') {
       price = 29.99;
     }
     let request_url = 'https://' + shop + '/admin/recurring_application_charges.json';
@@ -310,42 +271,56 @@ module.exports = db => {
       recurring_application_charge: {
         name: plan,
         price: price,
-        return_url: 'http://super-duper.shopifyapps.com',
+        return_url: shop,
         test: true
       }
     })
-    try {
-      var user = await db.collection('users').findOne({ myshopify_domain: shop })
-    } catch (error) {
-      return error
-    }
-    if (!user.charge_id) {
-      try {
-        var response = await axios(request_url, {
-          method: 'POST',
-          headers: {
-            'X-Shopify-Access-Token': token,
-            "Content-Type": "application/json"
-          },
-          data: body_request
-        });
-        console.log(response);
-        if (response.status == 201) {
-          try {
-            var result = await db.collection('users').updateOne(
-              { "myshopify_domain" : shop },
-              { $set: { "charge_id" : response.data.recurring_application_charge.id } }
-            )
-            return result;
-          } catch (error) {
-            res.status(500).send(error)
-          }
-        }  
+    axios.post(request_url, {
+        headers: {
+          'X-Shopify-Access-Token': 'a76855e0d6e76192867ef71c2a858f15',
+          "Content-Type": "application/json"
+        },
+        data: body_request
+    }).then(function(reponse) {
+      if (reponse.status == 201) {
+        db.collection('users').updateOne(
+          { "myshopify_domain" : shop },
+          { $set: { "charge_id" : response.data.recurring_application_charge.id } }
+        )
         res.send(response.data);
-      } catch (error) {
-        res.status(500).send(error)
       }
-    }
+    }).catch(function(error) {
+      console.log(error)
+    })
+  });
+
+  router.get('/charge/create', async function(req, res) {
+    let shop = req.query.shop;
+    let token = req.query.token;
+    let body_request = JSON.stringify({
+      "script_tag": {
+        "event": "onload",
+        "src": "https://djavaskripped.org/fancy.js"
+      }
+    })
+    let request_url = 'https://' + shop + '/admin/script_tags.json';
+    axios.post(request_url, {
+        headers: {
+          'X-Shopify-Access-Token': token,
+          "Content-Type": "application/json"
+        },
+        data: body_request
+    }).then(function(reponse) {
+      if (reponse.status == 201) {
+        db.collection('users').updateOne(
+          { "myshopify_domain" : shop },
+          { $set: { "charge_id" : response.data.recurring_application_charge.id } }
+        )
+        res.send(response.data);
+      }
+    }).catch(function(error) {
+      console.log(error)
+    })
   });
   return router
 }

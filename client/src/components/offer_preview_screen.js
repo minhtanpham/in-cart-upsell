@@ -254,115 +254,83 @@ export default class OfferPreviewScreen extends React.Component {
     }
 
     saveOffer() {
-        axios(`${setting.host}/api/list/offers`, {
-            method: 'GET',
-            params: {
-                shop: setting.shop
-            }
-        })
-        .then(function (response) {
-            var number_offer = response.data.length;
-            axios(`${setting.host}/api/plan`, {
-                method: 'GET',
+        var self = this;
+        // check the id from url
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var id = url.searchParams.get("id");
+        if (id) {
+            axios(`${setting.host}/api/update/offer`, {
+                method: 'POST',
                 params: {
-                    shop: setting.shop
+                    _id: id,
+                    shop: setting.shop,
+                    status: self.state.status,
+                    offer_title: self.state.offer_title,
+                    list_products: JSON.stringify(self.state.list_products),
+                    offer_headline: self.state.offer_headline,
+                    headline_color: self.state.headline_color,
+                    button_text: self.state.button_text,
+                    button_color: self.state.button_color,
+                    width: self.state.width,
+                    height: self.state.height,
+                    button_border: self.state.button_border,
+                    border_color: self.state.border_color,
+                    border_size: self.state.border_size,
+                    border_style: self.state.border_style,
+                    border_radius: self.state.border_radius,
+                    background_color: self.state.background_color,
+                    show_product_image: self.state.show_product_image,
+                    hide_out_of_stock: self.state.hide_out_of_stock,
+                    link_product: self.state.link_product,
+                    show_x: self.state.show_x,
+                    auto_remove: self.state.auto_remove,
+                    condition: JSON.stringify(self.state.condition),
+                    createdAt: new Date()
                 }
             })
             .then(function (response) {
-                var plan_name = response.data.recurring_application_charge.name;
-                if (plan_name === 'free' && number_offer === 1) {
-                    alert('Limit the plan');
-                    return false;
-                }
-                if (plan_name === 'basic' && number_offer === 25) {
-                    alert('Limit the plan');
-                    return false;
-                }
-                var self = this;
-                // check the id from url
-                var url_string = window.location.href;
-                var url = new URL(url_string);
-                var id = url.searchParams.get("id");
-                if (id) {
-                    axios(`${setting.host}/api/update/offer`, {
-                        method: 'POST',
-                        params: {
-                            _id: id,
-                            shop: setting.shop,
-                            status: self.state.status,
-                            offer_title: self.state.offer_title,
-                            list_products: JSON.stringify(self.state.list_products),
-                            offer_headline: self.state.offer_headline,
-                            headline_color: self.state.headline_color,
-                            button_text: self.state.button_text,
-                            button_color: self.state.button_color,
-                            width: self.state.width,
-                            height: self.state.height,
-                            button_border: self.state.button_border,
-                            border_color: self.state.border_color,
-                            border_size: self.state.border_size,
-                            border_style: self.state.border_style,
-                            border_radius: self.state.border_radius,
-                            background_color: self.state.background_color,
-                            show_product_image: self.state.show_product_image,
-                            hide_out_of_stock: self.state.hide_out_of_stock,
-                            link_product: self.state.link_product,
-                            show_x: self.state.show_x,
-                            auto_remove: self.state.auto_remove,
-                            condition: JSON.stringify(self.state.condition),
-                            createdAt: new Date()
-                        }
-                    })
-                    .then(function (response) {
-                        self.setState({ redirect: true })
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                } else {
-                    axios(`${setting.host}/api/create/offer`, {
-                        method: 'POST',
-                        params: {
-                            shop: setting.shop,
-                            status: self.state.status,
-                            offer_title: self.state.offer_title,
-                            list_products: JSON.stringify(self.state.list_products),
-                            offer_headline: self.state.offer_headline,
-                            headline_color: self.state.headline_color,
-                            button_text: self.state.button_text,
-                            button_color: self.state.button_color,
-                            width: self.state.width,
-                            height: self.state.height,
-                            button_border: self.state.button_border,
-                            border_color: self.state.border_color,
-                            border_size: self.state.border_size,
-                            border_style: self.state.border_style,
-                            border_radius: self.state.border_radius,
-                            background_color: self.state.background_color,
-                            show_product_image: self.state.show_product_image,
-                            hide_out_of_stock: self.state.hide_out_of_stock,
-                            link_product: self.state.link_product,
-                            show_x: self.state.show_x,
-                            auto_remove: self.state.auto_remove,
-                            condition: JSON.stringify(self.state.condition),
-                            createdAt: new Date()
-                        }
-                    })
-                    .then(function (response) {
-                        self.setState({ redirect: true })
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                }
+                self.setState({ redirect: true })
             })
             .catch(function (error) {
                 console.log(error);
             })
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+        } else {
+            axios(`${setting.host}/api/create/offer`, {
+                method: 'POST',
+                params: {
+                    shop: setting.shop,
+                    status: self.state.status,
+                    offer_title: self.state.offer_title,
+                    list_products: JSON.stringify(self.state.list_products),
+                    offer_headline: self.state.offer_headline,
+                    headline_color: self.state.headline_color,
+                    button_text: self.state.button_text,
+                    button_color: self.state.button_color,
+                    width: self.state.width,
+                    height: self.state.height,
+                    button_border: self.state.button_border,
+                    border_color: self.state.border_color,
+                    border_size: self.state.border_size,
+                    border_style: self.state.border_style,
+                    border_radius: self.state.border_radius,
+                    background_color: self.state.background_color,
+                    show_product_image: self.state.show_product_image,
+                    hide_out_of_stock: self.state.hide_out_of_stock,
+                    link_product: self.state.link_product,
+                    show_x: self.state.show_x,
+                    auto_remove: self.state.auto_remove,
+                    condition: JSON.stringify(self.state.condition),
+                    createdAt: new Date()
+                }
+            })
+            .then(function (response) {
+                self.setState({ redirect: true })
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+        }
     }
 
     renderContainerPage(page) {

@@ -18,23 +18,24 @@ export default class WelcomePopup extends React.Component {
     }
 
     accept_term() {
-        var name = readCookie('shop.name');
-        var email = readCookie(email);
-        var address1 = readCookie(address1);
-        var country = readCookie(country);
-        var myshopify_domain = readCookie(myshopify_domain);
-        var access_token = readCookie(access_token);
+        var name = setting.name;
+        var email = setting.email;
+        var address1 = setting.address1;
+        var country = setting.country;
+        var shopify_domain = setting.shopify_domain;
+        var access_token = setting.access_token;
         var createdAt = new Date();
-        var accept = false;
+        var accept = true;
         var plan = 'free';
-        axios(`${setting.host}/api/users`, {
+        
+        axios.post(`${setting.host}/api/users`, {
             method: 'POST',
             params: {
                 name: name,
                 email: email,
                 address1: address1,
                 country: country,
-                myshopify_domain: myshopify_domain,
+                myshopify_domain: shopify_domain,
                 access_token: access_token,
                 createdAt: createdAt,
                 accept: accept,
@@ -42,13 +43,26 @@ export default class WelcomePopup extends React.Component {
             }
         })
         .then(function (response) {
-            if (response.status == 200) {
-                this.setState({ redirect: true })
-            }
         })
         .catch(function (error) {
             console.log(error);
         })
+        setTimeout(() => {
+            // this.setState({ redirect: true })
+            axios.get(`${setting.host}/api/charge/create`, {
+                method: 'GET',
+                params: {
+                    shop: setting.shop,
+                    plan: 'free',
+                    token: setting.access_token
+                }
+            }).then(function (response) {
+                console.log(response)
+                this.setState({ redirect: true })
+            }).catch(function (error) {
+                console.log(error);
+            })
+        }, 2000);
     }
 
     render() {
